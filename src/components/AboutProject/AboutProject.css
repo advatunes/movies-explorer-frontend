@@ -1,11 +1,7 @@
 .about-project {
   margin-top: 110px;
+  margin-bottom: 110px;
 }
-
-.about-project__title {
-  /* Стили для заголовка */
-}
-
 .about-project__content {
   margin-top: 70px;
 }
@@ -14,10 +10,6 @@
   display: flex;
   justify-content: space-between;
   gap: 40px;
-}
-
-.about-project__text {
-  /* Стили для текстового блока */
 }
 
 .about-project__text-title {
@@ -74,6 +66,7 @@
 @media screen and (max-width: 900px) {
   .about-project {
     margin-top: 90px;
+    margin-bottom: 90px;
   }
 
   .about-project__text-wrap {
@@ -103,7 +96,8 @@
 
 @media screen and (max-width: 568px) {
   .about-project__content {
-    margin-top: 60px;
+    margin-top: 70px;
+    margin-bottom: 70px;
   }
   .about-project__text-title {
     margin: 0;
