@@ -1,16 +1,16 @@
 function NavPromo() {
   return (
-    <div className='navigation'>
-      <a className='navigation__logo' href='#'></a>
-      <nav className='navigation__logo-buttons'>
-        <a href='#' className='navigation__logo-link'>
+    <nav className='navigation-promo navigation'>
+      <a className='navigation-promo__logo navigation__logo' href='#'></a>
+      <div className='navigation-promo__buttons'>
+        <a href='#' className='navigation-promo__link'>
           Регистрация
         </a>
-        <a href='#' className='navigation__logo-link'>
+        <a href='http://localhost:3000/movies' className='navigation-promo__link'>
           Войти
         </a>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
 

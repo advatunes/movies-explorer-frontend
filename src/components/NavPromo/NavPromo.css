@@ -1,21 +1,11 @@
-.navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.navigation__logo {
-  height: 38px;
-  width: 38px;
-  background-image: url(../../images/header-logo.svg);
-}
 
-.navigation__logo-buttons {
+.navigation-promo__buttons {
   display: flex;
   gap: 10px;
 }
 
-.navigation__logo-link {
+.navigation-promo__link {
   color: #fff;
   font-size: 12px;
   line-height: 16px;
@@ -25,17 +15,17 @@
   transition: all 0.2s;
 }
 
-.navigation__logo-link:hover {
+.navigation-promo__link:hover {
   color: #000;
   background-color: #2be080;
   border-radius: 3px;
 }
 
 @media screen and (max-width: 568px) {
-  .navigation__logo-buttons {
+  .navigation-promo__buttons {
     gap: 2px;
   }
-  .navigation__logo-link {
+  .navigation-promo__link {
     padding: 5px 12px;
   }
 }
