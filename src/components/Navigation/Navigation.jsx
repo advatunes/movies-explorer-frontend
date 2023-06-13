@@ -9,6 +9,7 @@ function Navigation() {
 
   return (
     <nav className='navigation'>
+      <div className={`overlay ${isMenuOpen ? 'overlay_visible' : ''}`}></div>
       <a className='navigation__logo' href='#'></a>
       <div className='navigation__films'>
         <a href='#' className='navigation__link'>
@@ -58,8 +59,9 @@ function Navigation() {
           </div>
         </div>
       </div>
-      <div className={`overlay ${isMenuOpen ? 'overlay_visible' : ''}`}></div>
+
     </nav>
+
   );
 }
 

@@ -2,7 +2,6 @@
 }
 
 .container {
-
   max-width: 1140px;
   margin: 0 auto;
   padding: 0 70px;
@@ -16,16 +15,16 @@
 }
 
 @media screen and (max-width: 900px) {
-    .container {
-        padding: 0 50px;
-    }
+  .container {
+    padding: 0 50px;
   }
+}
 
-  @media screen and (max-width: 568px) {
-    .container {
-        padding: 0 15px;
-    }
-    .container-gray {
-      background-color: #fff;
-    }
+@media screen and (max-width: 568px) {
+  .container {
+    padding: 0 15px;
   }
+  .container-gray {
+    background-color: #fff;
+  }
+}

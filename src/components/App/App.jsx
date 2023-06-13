@@ -7,6 +7,8 @@ import Header from '../Header/Header';
 
 import Footer from '../Footer/Footer';
 
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+
 function App() {
   return (
     <div className='root'>
@@ -15,8 +17,12 @@ function App() {
         <Routes>
           <Route path='/' element={<Main />} />
           <Route path='/movies' element={<Movies />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
         <Footer />
+
+
+
       </Router>
     </div>
   );

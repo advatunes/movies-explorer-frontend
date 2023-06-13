@@ -1,0 +1,51 @@
+.cardlist {
+  margin-top: 80px;
+}
+
+.cardlist__wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 28px;
+  row-gap: 32px;
+  margin-bottom: 50px;
+}
+
+.cardlist__button {
+  margin: 0 auto;
+  display: inline-block;
+  margin: 18px auto;
+  width: 320px;
+  height: 36px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background-color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cardlist__button:hover {
+  background-color: #e8e8e8;
+}
+
+.card__like:hover {
+  background-color: #ff6838;
+}
+
+@media screen and (max-width: 900px) {
+  .cardlist__wrap {
+    grid-template-columns: repeat(2, minmax(342px, auto));
+    column-gap: 24px;
+    row-gap: 35px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .cardlist__wrap {
+    grid-template-columns: repeat(1, minmax(300px, auto));
+    row-gap: 14px;
+  }
+}
