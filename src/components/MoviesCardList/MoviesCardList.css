@@ -4,7 +4,7 @@
 
 .cardlist__wrap {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(228px, auto));
   column-gap: 28px;
   row-gap: 32px;
   margin-bottom: 50px;
@@ -37,7 +37,7 @@
 
 @media screen and (max-width: 900px) {
   .cardlist__wrap {
-    grid-template-columns: repeat(2, minmax(342px, auto));
+    grid-template-columns: repeat(2, minmax(230px, auto));
     column-gap: 24px;
     row-gap: 35px;
   }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,16 +21,10 @@ function Navigation() {
         </a>
       </div>
       <div className='navigation__account'>
-        <a
-          href='#'
-          className="navigation__link navigation__link-account"
-        >
+        <Link to='/profile' className='navigation__link navigation__link-account'>
           Аккаунт
-        </a>
-        <a
-          href='#'
-          className="navigation__link navigation__link-icon"
-        ></a>
+        </Link>
+        <Link to='/profile' className='navigation__link navigation__link-icon'> </Link>
         <button
           className='navigation__link navigation__link-burger'
           onClick={handleBurgerClick}
@@ -52,16 +47,20 @@ function Navigation() {
             </a>
           </nav>
           <div className='navigation__account navigation__account_burger'>
-            <a href='#' className='navigation__link navigation__link-account navigation__link-account_burger'>
+            <a
+              href='#'
+              className='navigation__link navigation__link-account navigation__link-account_burger'
+            >
               Аккаунт
             </a>
-            <a href='#' className='navigation__link navigation__link-icon navigation__link-icon_burger'></a>
+            <a
+              href='#'
+              className='navigation__link navigation__link-icon navigation__link-icon_burger'
+            ></a>
           </div>
         </div>
       </div>
-
     </nav>
-
   );
 }
 
