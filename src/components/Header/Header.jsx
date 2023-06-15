@@ -19,6 +19,7 @@ function Header() {
 
       <header className={` header ${location.pathname === '/' ? ' header-blue' : ''}`}>
         <Routes>
+
           <Route path='/' element={<NavPromo />} />
           <Route path='/*' element={<Navigation />} />
         </Routes>

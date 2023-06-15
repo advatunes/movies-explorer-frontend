@@ -3,10 +3,13 @@ import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from "../Portfolio/Portfolio"
+import Header from '../Header/Header';
 
 function Main() {
   return (
+
     <main className='content'>
+        {/* <Header /> */}
       <div className='container container-blue'>
         <Promo />
       </div>

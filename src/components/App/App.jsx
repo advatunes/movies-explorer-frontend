@@ -8,6 +8,7 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Footer from '../Footer/Footer';
+import Layout from '../Layout/Layout';
 
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -15,19 +16,15 @@ function App() {
   return (
     <div className='root'>
       <BrowserRouter>
-        <Header />
         <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/movies' element={<Movies />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/signup ' element={<Register />} />
-          <Route path='/signin ' element={<Login />} />
-        </Routes>
-        <Footer />
-        <Routes>
-          <Route>
-            <Route path='*' element={<NotFoundPage />} />
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Main />} />
+            <Route path='movies' element={<Movies />} />
+            <Route path='profile' element={<Profile />} />
+            <Route path='signup' element={<Register />} />
+            <Route path='signin' element={<Login />} />
           </Route>
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </div>
