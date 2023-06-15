@@ -1,7 +1,7 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies() {
+function SavedMovies () {
   return (
     <section className='movies'>
       <SearchForm />
@@ -10,4 +10,4 @@ function Movies() {
   );
 }
 
-export default Movies;
+export default SavedMovies ;

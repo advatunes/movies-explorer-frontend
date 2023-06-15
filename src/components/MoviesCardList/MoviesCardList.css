@@ -1,13 +1,12 @@
 .cardlist {
   display: flex;
-
   flex-direction: column;
   margin-top: 80px;
 }
 
 .cardlist__wrap {
   display: grid;
-  grid-template-columns: repeat(3, minmax(228px, auto));
+  grid-template-columns: repeat(3, minmax(228px, 360px));
   column-gap: 28px;
   row-gap: 32px;
   margin-bottom: 50px;
@@ -16,7 +15,7 @@
 .cardlist__button {
   margin: 0 auto;
   display: inline-block;
-  margin: 18px auto;
+  margin: 8px auto 80px;
   width: 320px;
   height: 36px;
   font-weight: 500;
@@ -40,9 +39,18 @@
 
 @media screen and (max-width: 900px) {
   .cardlist__wrap {
-    grid-template-columns: repeat(2, minmax(230px, auto));
+    grid-template-columns: repeat(2, minmax(230px, 342px));
     column-gap: 24px;
     row-gap: 35px;
+    margin-bottom: 70px;
+  }
+
+  .cardlist {
+    align-items: center;
+  }
+
+  .cardlist__button {
+    margin-bottom: 100px;
   }
 }
 
@@ -50,5 +58,13 @@
   .cardlist__wrap {
     grid-template-columns: repeat(1, minmax(300px, auto));
     row-gap: 14px;
+  }
+
+  .cardlist {
+    align-items: normal;
+    margin-top: 50px;
+  }
+  .cardlist__button {
+    margin-bottom: 115px;
   }
 }

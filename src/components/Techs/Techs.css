@@ -1,7 +1,8 @@
 .techs {
-  padding-top: 110px;
+  padding-top: 100px;
   padding-bottom: 110px;
   margin: 0 auto;
+  letter-spacing: -0.04em;
 }
 
 .techs__main-text {
@@ -59,11 +60,12 @@
 }
 
 @media screen and (max-width: 568px) {
-  .about-project__content {
-    padding-top: 70px;
-    padding-bottom: 70px;
+  .techs {
+    padding-top: 50px;
+
   }
   .techs__main-text {
+    margin-top: 60px;
     font-size: 30px;
     line-height: 36px;
   }
@@ -74,6 +76,6 @@
   .techs__cards {
     display: grid;
     grid-template-columns: 84px 84px;
-    margin-top: 70px;
+    margin-top: 50px;
   }
 }

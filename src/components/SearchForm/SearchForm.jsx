@@ -14,7 +14,6 @@ function SearchForm() {
         <span className='search-form__slider'></span>
         <span className='search-form__text'>Короткометражки</span>
       </label>
-
     </section>
   );
 }

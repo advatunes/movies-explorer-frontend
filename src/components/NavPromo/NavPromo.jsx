@@ -1,14 +1,16 @@
+import { Link } from 'react-router-dom';
+
 function NavPromo() {
   return (
     <nav className='navigation-promo navigation'>
-      <a className='navigation-promo__logo navigation__logo' href='#'></a>
+      <Link to='/' className='navigation-promo navigation__logo' href='#'></Link>
       <div className='navigation-promo__buttons'>
-        <a href='#' className='navigation-promo__link'>
+        <Link to='/signup' className='navigation-promo__link'>
           Регистрация
-        </a>
-        <a href='http://localhost:3000/movies' className='navigation-promo__link'>
+        </Link>
+        <Link to='/signin' className='navigation-promo__link'>
           Войти
-        </a>
+        </Link>
       </div>
     </nav>
   );

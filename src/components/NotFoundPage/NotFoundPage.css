@@ -24,6 +24,7 @@
   margin: 0;
   font-size: 16px;
   line-height: 19px;
+  font-weight: 400;
 }
 
 .not-found-page__button {
@@ -42,7 +43,7 @@
 
 @media screen and (max-width: 900px) {
   .not-found-page__text {
-    margin-top: 400px;
+    margin-top: 410px;
   }
   .not-found-page__button {
     margin-bottom: 220px;
@@ -62,7 +63,6 @@
     margin-bottom: 30px;
     font-size: 12px;
     line-height: 15px;
-
   }
 
   .not-found-page__message {

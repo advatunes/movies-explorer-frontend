@@ -49,6 +49,9 @@
     padding: 0 30px;
     background-color: #fff;
   }
+  .footer__text {
+    padding-top: 60px;
+  }
 }
 
 @media screen and (max-width: 568px) {
@@ -63,6 +66,10 @@
     align-items: center;
     gap: 30px;
   }
+  .footer__text {
+    padding-top: 45px;
+    margin-bottom: 15px;
+  }
   .footer__links {
     display: flex;
     flex-direction: column;
@@ -70,7 +77,6 @@
     gap: 12px;
   }
   .footer__year {
-    color: #A0A0A0;
+    color: #a0a0a0;
   }
-
 }

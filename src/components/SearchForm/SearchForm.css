@@ -39,8 +39,8 @@
 }
 
 .search-form__button:hover {
-    background-color: #ee3465;
-    font-size: 13px;
+  background-color: #ee3465;
+  font-size: 13px;
 }
 
 .search-form__switch {
@@ -99,6 +99,7 @@ input:checked + .search-form__slider:before {
 
 @media screen and (max-width: 568px) {
   .search-form {
-    gap: 45px;
+    margin-top: 75px;
+    gap: 40px;
   }
 }

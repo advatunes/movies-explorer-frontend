@@ -2,7 +2,6 @@
   background-color: #46cd 5dff;
   height: 560px;
   position: relative;
-
 }
 
 .promo__logo {
@@ -11,7 +10,7 @@
   position: absolute;
   bottom: 60px;
   right: 0;
- max-width: 722px;
+  max-width: 722px;
   max-height: 244px;
   width: 100%;
   height: 100%;
@@ -26,6 +25,7 @@
   margin: 0;
   max-width: 630px;
   padding-top: 50px;
+  letter-spacing: -0.04em;
 }
 
 @media screen and (max-width: 900px) {
@@ -40,7 +40,6 @@
     right: 0;
     max-width: 680px;
     max-height: 230px;
-
   }
 
   .promo__title {

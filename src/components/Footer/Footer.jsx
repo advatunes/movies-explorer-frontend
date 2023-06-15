@@ -19,15 +19,15 @@ function Footer() {
   }
 
   return (
-    <footer className="footer">
-      <p className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
-      <div className="footer__link-wrap">
-        <p className="footer__year">© {getYear()} </p>
-        <div className="footer__links">
-          <a href="https://practicum.yandex.ru/" className="footer_link">
+    <footer className='footer'>
+      <p className='footer__text'>Учебный проект Яндекс.Практикум х BeatFilm.</p>
+      <div className='footer__link-wrap'>
+        <p className='footer__year'>© {getYear()} </p>
+        <div className='footer__links'>
+          <a href='https://practicum.yandex.ru/' className='footer_link' target='_blank'>
             Яндекс.Практикум
           </a>
-          <a href="https://github.com/Yandex-Practicum" className="footer_link">
+          <a href='https://github.com/Yandex-Practicum' className='footer_link' target='_blank'>
             Github
           </a>
         </div>

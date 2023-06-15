@@ -1,14 +1,12 @@
-import image from '../../images/card-img.jpg';
-
-function MoviesCard() {
+function MoviesCard({ link, title, duration }) {
   return (
     <article className='card'>
       <div className='card__wrap'>
-        <h2 className='card__title'>В погоне за Бенкси</h2>
-        <p className='card__movie-duration'>27 минут</p>
+        <h2 className='card__title'>{title}</h2>
+        <p className='card__movie-duration'>{duration}</p>
       </div>
 
-      <img className='card__image' src={image} alt='card' />
+      <img className='card__image' src={link} alt='card' />
       <button className='card__like'></button>
     </article>
   );

@@ -34,7 +34,6 @@
   font-size: 13px;
   line-height: 18px;
   color: #a0a0a0;
-
 }
 
 .card__image {
@@ -47,23 +46,53 @@
 .card__like {
   display: inline-block;
   margin: 18px auto;
-
-  height: 30px;
-  width: 100px;
   padding: 10px;
-  color: #fff;
+  font-size: 12px;
+  line-height: 11px;
+  color: #000;
   border: none;
   border-radius: 30px;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100px;
+  height: 30px;
+  position: relative;
+}
+
+.card__like::before {
+  content: 'Сохранить';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card__like.card__like_active::before {
+  content: '';
+}
+
+.card__like_active {
+  color: #fff;
   background-image: url(../../images/card-like.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-color: #ee3465;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .card__like:hover {
   background-color: #ff6838;
+}
+
+.card__like_dislike {
+  background: #f9f9f9;
+  background-image: url(../../images/dislike-card-icon.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.card__like.card__like_dislike::before {
+  content: '';
 }
 
 @media screen and (max-width: 900px) {
@@ -73,7 +102,21 @@
 }
 
 @media screen and (max-width: 568px) {
+  .card__wrap {
+    padding: 14px;
+  }
   .card__image {
     height: 170px;
+  }
+
+  .card__title {
+    font-size: 12px;
+  }
+  .card__movie-duration {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .card__like {
+    margin: 14px auto;
   }
 }
