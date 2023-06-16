@@ -7,23 +7,24 @@ import Portfolio from '../Portfolio/Portfolio';
 function Main() {
   return (
     <main className='content'>
-      <div className='container container-blue'>
+      <section className='container container-blue'>
         <Promo />
-      </div>
-      <div className='container'>
+      </section>
+      <section className='container'>
         <AboutProject />
-      </div>
-      <div className='container container-gray'>
+      </section>
+      <section className='container container-gray'>
         <Techs />
-      </div>
-      <div className='container '>
+      </section>
+      <section className='container'>
         <AboutMe />
-      </div>
-      <div className='container '>
+      </section>
+      <section className='container'>
         <Portfolio />
-      </div>
+      </section>
     </main>
   );
 }
+
 
 export default Main;

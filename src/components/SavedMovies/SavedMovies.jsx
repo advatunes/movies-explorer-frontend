@@ -1,13 +1,14 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import React, { useEffect, useState } from 'react';
 
-function SavedMovies () {
+function SavedMovies({ isSavedMovies }) {
   return (
     <section className='movies'>
       <SearchForm />
-      <MoviesCardList />
+      <MoviesCardList isSavedMovies={isSavedMovies} />
     </section>
   );
 }
 
-export default SavedMovies ;
+export default SavedMovies;

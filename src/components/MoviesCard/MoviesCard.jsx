@@ -1,4 +1,4 @@
-function MoviesCard({ link, title, duration }) {
+function MoviesCard({ link, title, duration, isSavedMovies }) {
   return (
     <article className='card'>
       <div className='card__wrap'>
@@ -7,7 +7,7 @@ function MoviesCard({ link, title, duration }) {
       </div>
 
       <img className='card__image' src={link} alt='card' />
-      <button className='card__like'></button>
+      <button className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}></button>
     </article>
   );
 }

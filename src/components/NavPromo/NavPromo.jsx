@@ -8,7 +8,7 @@ function NavPromo() {
         <Link to='/signup' className='navigation-promo__link'>
           Регистрация
         </Link>
-        <Link to='/signin' className='navigation-promo__link'>
+        <Link to='/signin' className='navigation-promo__link navigation-promo__link-signin'>
           Войти
         </Link>
       </div>

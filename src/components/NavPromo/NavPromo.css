@@ -12,8 +12,10 @@
   padding: 8px 20px;
   transition: all 0.2s;
 }
-
 .navigation-promo__link:hover {
+  opacity: .6;
+}
+.navigation-promo__link-signin {
   color: #000;
   background-color: #2be080;
   border-radius: 3px;

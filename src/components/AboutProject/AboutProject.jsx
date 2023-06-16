@@ -1,6 +1,6 @@
 function AboutProject() {
   return (
-    <section className='about-project'>
+    <div className='about-project'>
       <h2 className='about-project__title title'>О проекте</h2>
       <div className='about-project__content'>
         <div className='about-project__text-wrap'>
@@ -30,7 +30,7 @@ function AboutProject() {
           <p className='about-project__graphic-front'>Front-end</p>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

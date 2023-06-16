@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 75px;
+  margin-bottom: 70px;
   padding: 0 30px;
 }
 
@@ -100,6 +101,7 @@
 @media screen and (max-width: 900px) {
   .profile {
     margin-top: 230px;
+    margin-bottom: 270px;
   }
 
   .profile__container {
@@ -114,6 +116,7 @@
 @media screen and (max-width: 568px) {
   .profile {
     margin-top: 65px;
+    margin-bottom: 40px;
   }
 
   .profile__container {

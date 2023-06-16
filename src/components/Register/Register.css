@@ -1,8 +1,7 @@
 .register {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  margin-top: 70px;
+  margin: 70px auto;
   padding: 0 30px;
   max-width: 400px;
 }
@@ -130,6 +129,7 @@
 @media screen and (max-width: 900px) {
   .register {
     margin-top: 232px;
+    margin-bottom: 232px;
   }
 
   .register__container {
@@ -140,6 +140,7 @@
 @media screen and (max-width: 568px) {
   .register {
     margin-top: 56px;
+    margin-bottom: 30px;
     align-items: center;
   }
 

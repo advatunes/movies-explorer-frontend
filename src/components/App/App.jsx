@@ -11,6 +11,9 @@ import Register from '../Register/Register';
 import Layout from '../Layout/Layout';
 
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import SavedMovies from '../SavedMovies/SavedMovies';
+
+const isSavedMovies = true;
 
 function App() {
   return (
@@ -20,7 +23,7 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route index element={<Main />} />
             <Route path='movies' element={<Movies />} />
-            <Route path='saved-movies' element={<Movies />} />
+            <Route path='saved-movies' element={<SavedMovies isSavedMovies={isSavedMovies} />} />
             <Route path='profile' element={<Profile />} />
             <Route path='signup' element={<Register />} />
             <Route path='signin' element={<Login />} />

@@ -1,6 +1,6 @@
 function AboutMe() {
   return (
-    <section className='portfolio'>
+    <div className='portfolio'>
       <h2 className='portfolio__title'>Портфолио</h2>
       <nav className='portfolio__nav'>
         <a
@@ -28,7 +28,7 @@ function AboutMe() {
           <span className='portfolio__navlink-arrow'>&#8599;</span>
         </a>
       </nav>
-    </section>
+    </div>
   );
 }
 
