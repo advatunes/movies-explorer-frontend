@@ -15,6 +15,8 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 
 const isSavedMovies = true;
 
+
+
 function App() {
   return (
     <div className='root'>

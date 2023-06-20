@@ -37,6 +37,7 @@
   background-color: #ff6838;
 }
 
+
 @media screen and (max-width: 900px) {
   .cardlist__wrap {
     grid-template-columns: repeat(2, minmax(230px, 342px));
@@ -61,7 +62,7 @@
   }
 
   .cardlist {
-    align-items: normal;
+    /* align-items: normal; */
     margin-top: 50px;
   }
   .cardlist__button {
