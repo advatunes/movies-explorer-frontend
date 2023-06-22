@@ -60,6 +60,7 @@ function MoviesCardList({cards, isSavedMovies }) {
               link={url + card.image.url}
               title={card.nameRU}
               duration={card.duration}
+              trailerLink={card.trailerLink}
               isSavedMovies={isSavedMovies}
             />
           ))}

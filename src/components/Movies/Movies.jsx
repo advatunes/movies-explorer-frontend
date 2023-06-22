@@ -8,8 +8,8 @@ function Movies() {
   const [cards, setCards] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [shortFilms, setShortFilms] = useState(false);
 
-  useEffect(() => {}, []);
 
   function handleSearch(searchValue) {
     setIsLoadingPage(true);
@@ -17,9 +17,14 @@ function Movies() {
     api
       .getInitialCards()
       .then((data) => {
-        const filteredCards = data.filter((card) =>
-          card.nameRU.toLowerCase().includes(searchValue.toLowerCase())
+        const filteredCards = data.filter(
+          (card) =>
+            (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
+              card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
+            (!shortFilms || card.duration <= 40)
         );
+        if (shortFilms) {
+        }
         setCards(filteredCards);
       })
       .catch((err) => {
@@ -33,7 +38,7 @@ function Movies() {
 
   return (
     <main className='movies'>
-      <SearchForm onSearch={handleSearch} />
+      <SearchForm onSearch={handleSearch} setShortFilms={setShortFilms} />
 
       {isLoadingPage ? (
         <Preloader />

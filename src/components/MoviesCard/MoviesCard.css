@@ -7,6 +7,10 @@
   border-radius: 6px;
 }
 
+.card__link {
+  text-decoration: none;
+}
+
 .card__wrap {
   display: flex;
   justify-content: space-between;
@@ -22,6 +26,7 @@
   line-height: 18px;
   padding-right: 10px;
   max-width: 80%;
+  color: #000;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
