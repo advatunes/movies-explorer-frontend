@@ -3,7 +3,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import { api } from '../../utils/MoviesApi';
 import { useEffect, useState } from 'react';
 
-function MoviesCardList({cards, isSavedMovies }) {
+function MoviesCardList({cards, savedCards,handleAddToSavedCards }) {
   // const [cards, setCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(0);
   const url = 'https://api.nomoreparties.co/';
@@ -28,25 +28,9 @@ function MoviesCardList({cards, isSavedMovies }) {
     window.addEventListener('resize', handleResize);
   }, []);
 
-  // useEffect(() => {
-  //   setIsLoadingPage(true);
-  //   setIsError(false);
-  //   api
-  //     .getInitialCards()
-  //     .then(setCards)
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setIsError(true);
-  //     })
-  //     .finally(() => {
-  //       setIsLoadingPage(false);
-  //     });
-  // }, []);
-
   function handleLoadMore()  {
     setVisibleCards(visibleCards + ( window.innerWidth >= 900 ? 3 : 2));
   };
-
 
 
   return (
@@ -61,7 +45,9 @@ function MoviesCardList({cards, isSavedMovies }) {
               title={card.nameRU}
               duration={card.duration}
               trailerLink={card.trailerLink}
-              isSavedMovies={isSavedMovies}
+              savedCards={savedCards}
+              handleAddToSavedCards={handleAddToSavedCards}
+              // isSavedMovies={isSavedMovies}
             />
           ))}
         </div>

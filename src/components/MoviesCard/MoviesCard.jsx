@@ -1,12 +1,20 @@
 import { api } from '../../utils/MainApi';
+import { useEffect } from 'react';
 
-function MoviesCard({ card, link, title, duration, trailerLink, isSavedMovies }) {
+function MoviesCard({
+  card,
+  link,
+  title,
+  duration,
+  trailerLink,
+  savedCards,
+  handleAddToSavedCards,
+}) {
   function likeMovie() {
-
     api
       .saveMovie(card)
       .then((data) => {
-        console.log(data);
+        handleAddToSavedCards(data);
       })
       .catch((err) => console.log(err));
   }
@@ -22,8 +30,9 @@ function MoviesCard({ card, link, title, duration, trailerLink, isSavedMovies })
         <img className='card__image' src={link} alt='card' />
       </a>
       <button
-        className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}
-           onClick={() => likeMovie(card)}
+        className={`card__like`}
+        // className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}
+        onClick={() => likeMovie(card)}
       ></button>
     </article>
   );

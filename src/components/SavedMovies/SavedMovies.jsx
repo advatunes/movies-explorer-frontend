@@ -2,11 +2,12 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import React, { useEffect, useState } from 'react';
 
-function SavedMovies({ isSavedMovies }) {
+function SavedMovies({ savedCards }) {
+  console.log(savedCards);
   return (
     <section className='movies'>
       <SearchForm />
-      <MoviesCardList isSavedMovies={isSavedMovies} />
+      <MoviesCardList cards={savedCards}/>
     </section>
   );
 }

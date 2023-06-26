@@ -4,12 +4,11 @@ import Preloader from '../Preloader/Preloader';
 import { useEffect, useState } from 'react';
 import { api } from '../../utils/MoviesApi';
 
-function Movies() {
+function Movies({ savedCards, handleAddToSavedCards }) {
   const [cards, setCards] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
   const [shortFilms, setShortFilms] = useState(false);
-
 
   function handleSearch(searchValue) {
     setIsLoadingPage(true);
@@ -50,7 +49,11 @@ function Movies() {
       ) : cards.length === 0 ? (
         <p className='movies__text'>Ничего не найдено.</p>
       ) : (
-        <MoviesCardList cards={cards} />
+        <MoviesCardList
+          cards={cards}
+          savedCards={savedCards}
+          handleAddToSavedCards={handleAddToSavedCards}
+        />
       )}
     </main>
   );
