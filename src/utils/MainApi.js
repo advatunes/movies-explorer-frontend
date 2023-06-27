@@ -1,4 +1,4 @@
-const url = 'https://api.nomoreparties.co/';
+const urlMovies = 'https://api.nomoreparties.co';
 
 class Api {
   constructor({ baseUrl, headers }) {
@@ -21,7 +21,7 @@ class Api {
   getUserData() {
     return this._request(`${this._baseUrl}/users/me`, {
       headers: this._headers,
- 
+      credentials: 'include',
     });
   }
 
@@ -32,10 +32,11 @@ class Api {
       duration: data.duration,
       year: data.year,
       description: data.description,
-      image: `${url}${data.image.url}`,
+      image: `${urlMovies}${data.image.url}`,
       trailerLink: data.trailerLink,
-      thumbnail: `${url}${data.image.url}`,
+      thumbnail: `${urlMovies}${data.image.formats.thumbnail.url}`,
       movieId: data.id,
+
       nameRU: data.nameRU,
       nameEN: data.nameEN,
     };
@@ -44,6 +45,7 @@ class Api {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify(movieData),
+      credentials: 'include',
     });
   }
 
@@ -52,13 +54,24 @@ class Api {
       method: 'GET',
       headers: this._headers,
       body: JSON.stringify(data),
+      credentials: 'include',
+    });
+  }
+
+  deleteMovie(movieId) {
+    return this._request(`${this._baseUrl}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: this._headers,
+      credentials: 'include',
     });
   }
 }
 
 export const api = new Api({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://api.advatunes.movies.nomoredomains.rocks',
   headers: {
+    authorization: `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json',
   },
 });
+

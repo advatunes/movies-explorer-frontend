@@ -1,13 +1,13 @@
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = 'https://api.advatunes.movies.nomoredomains.rocks';
 
 export const register = (email, password, name) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
 
-    body: JSON.stringify({ email, password,name }),
+    body: JSON.stringify({ email, password, name }),
   })
     .then((response) => {
       if (response.status === 201) {
@@ -19,9 +19,9 @@ export const register = (email, password, name) => {
 
 export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
 
     body: JSON.stringify({ email, password }),
@@ -35,16 +35,14 @@ export const login = (email, password) => {
 
 export const checkToken = (jwt) => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${jwt}`,
     },
   })
     .then((response) => {
-
       return response.json();
-
     })
     .then((data) => data);
 };

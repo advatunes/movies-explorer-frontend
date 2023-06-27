@@ -23,7 +23,7 @@ class Api {
   }
 }
 
-export const api = new Api({
+export const moviesApi = new Api({
   baseUrl: 'https://api.nomoreparties.co/beatfilm-movies',
   headers: {
     'Content-Type': 'application/json',

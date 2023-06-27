@@ -12,8 +12,9 @@ import Movies from '../Movies/Movies';
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
-import {api} from '../../utils/MainApi';
-import * as Auth from '../../utils/auth';
+import { api } from '../../utils/MainApi';
+import { moviesApi } from '../../utils/MoviesApi';
+import * as Auth from '../../utils/Auth';
 
 import Layout from '../Layout/Layout';
 
@@ -29,7 +30,37 @@ function App() {
     password: '',
   });
   const [email, setEmail] = useState(formValue.email);
-  // const navigate = useNavigate();
+
+  const [cards, setCards] = useState([]);
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [shortFilms, setShortFilms] = useState(false);
+
+  function handleSearch(searchValue) {
+    setIsLoadingPage(true);
+    setIsError(false);
+    moviesApi
+      .getInitialCards()
+      .then((data) => {
+        const filteredCards = data.filter(
+          (card) =>
+            (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
+              card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
+            (!shortFilms || card.duration <= 40)
+        );
+        if (shortFilms) {
+        }
+        setCards(filteredCards);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+      })
+      .finally(() => {
+        setIsLoadingPage(false);
+      });
+  }
+
 
   const handleChangeFormValue = (e) => {
     const { name, value } = e.target;
@@ -44,37 +75,14 @@ function App() {
     if (loggedIn) {
       api
         .getUserData()
-        .then((data) => setCurrentUser(data))
-        .catch((err) => {
-          console.log(err);
-        });    }
-  }, [loggedIn]);
-
-
-  useEffect(() => {
-    tokenCheck();
-
-
-  }, []);
-
-  function tokenCheck() {
-
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      Auth.checkToken(jwt)
-        .then((res) => {
-          console.log(res);
-          if (res) {
-            setEmail(res.email);
-            setLoggedIn(true);
-            // navigate('/movies', { replace: true });
-          }
+        .then((data) => {
+          setCurrentUser(data);
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     }
-  };
+  }, [loggedIn]);
 
   function handleAddToSavedCards(newCard) {
     setSavedCards((prevSavedCards) => [newCard, ...prevSavedCards]);
@@ -93,25 +101,51 @@ function App() {
                 element={
                   <ProtectedRoute
                     element={Movies}
+                    loggedIn={loggedIn}
                     savedCards={savedCards}
                     handleAddToSavedCards={handleAddToSavedCards}
+                    handleSearch={handleSearch}
+                    cards={cards}
+                    isLoadingPage={isLoadingPage}
+                    isError={isError}
+                    shortFilms={shortFilms}
+                    setShortFilms={setShortFilms}
                   />
-
                 }
               />
               <Route
                 path='saved-movies'
-                element={<ProtectedRoute element={SavedMovies} savedCards={savedCards} />}
+                element={
+                  <ProtectedRoute
+                    element={SavedMovies}
+                    loggedIn={loggedIn}
+                    savedCards={savedCards}
+                    isLoadingPage={isLoadingPage}
+                    isError={isError}
+                    setCards={setCards}
+                    shortFilms={shortFilms}
+                    // handleSearch={handleSearchSavedMovies}
+                    setShortFilms={setShortFilms}
+
+                  />
+                }
               />
               <Route path='profile' element={<ProtectedRoute element={Profile} />} />
               <Route
                 path='signup'
-                element={<Register formValue={formValue} onChange={handleChangeFormValue} />}
+                element={
+                  <Register
+                    formValue={formValue}
+                    loggedIn={loggedIn}
+                    onChange={handleChangeFormValue}
+                  />
+                }
               />
               <Route
                 path='signin'
                 element={
                   <Login
+                    setLoggedIn={setLoggedIn}
                     setEmail={setEmail}
                     formValue={formValue}
                     setFormValue={setFormValue}

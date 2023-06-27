@@ -1,12 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Auth from '../../utils/auth';
+import * as Auth from '../../utils/Auth';
 
-function Login({ formValue, onChange, setFormValue, setEmail }) {
+function Login({ setLoggedIn, formValue, onChange, setFormValue, setEmail }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  function tokenCheck() {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      Auth.checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setEmail(res.email);
+            setLoggedIn(true);
+            navigate('/movies', { replace: true });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+
+
+  function handleSubmit(e) {
     e.preventDefault();
     const { email, password } = formValue;
     Auth.login(email, password)

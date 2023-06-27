@@ -9,6 +9,8 @@ function MoviesCard({
   trailerLink,
   savedCards,
   handleAddToSavedCards,
+  isSavedMovies,
+  onCardDelete
 }) {
   function likeMovie() {
     api
@@ -19,6 +21,10 @@ function MoviesCard({
       .catch((err) => console.log(err));
   }
 
+  function handleDeleteClick() {
+    return onCardDelete(card);
+  }
+
   return (
     <article className='card'>
       <a className='card__link' href={trailerLink} target='_blank'>
@@ -27,12 +33,12 @@ function MoviesCard({
           <p className='card__movie-duration'>{duration}</p>
         </div>
 
-        <img className='card__image' src={link} alt='card' />
+        <img className='card__image' src={link} alt={title} />
       </a>
       <button
-        className={`card__like`}
-        // className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}
-        onClick={() => likeMovie(card)}
+
+        className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}
+        onClick={isSavedMovies ? handleDeleteClick : likeMovie(card)}
       ></button>
     </article>
   );

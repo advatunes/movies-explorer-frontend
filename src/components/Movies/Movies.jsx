@@ -4,36 +4,8 @@ import Preloader from '../Preloader/Preloader';
 import { useEffect, useState } from 'react';
 import { api } from '../../utils/MoviesApi';
 
-function Movies({ savedCards, handleAddToSavedCards }) {
-  const [cards, setCards] = useState([]);
-  const [isLoadingPage, setIsLoadingPage] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [shortFilms, setShortFilms] = useState(false);
+function Movies({ savedCards, handleAddToSavedCards, cards, handleSearch, isLoadingPage, isError, shortFilms, setShortFilms }) {
 
-  function handleSearch(searchValue) {
-    setIsLoadingPage(true);
-    setIsError(false);
-    api
-      .getInitialCards()
-      .then((data) => {
-        const filteredCards = data.filter(
-          (card) =>
-            (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
-              card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
-            (!shortFilms || card.duration <= 40)
-        );
-        if (shortFilms) {
-        }
-        setCards(filteredCards);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsError(true);
-      })
-      .finally(() => {
-        setIsLoadingPage(false);
-      });
-  }
 
   return (
     <main className='movies'>

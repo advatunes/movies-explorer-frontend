@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Auth from '../../utils/auth';
+import * as Auth from '../../utils/Auth';
 
 function Register({ formValue, onChange }) {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const { name, email, password } = formValue;

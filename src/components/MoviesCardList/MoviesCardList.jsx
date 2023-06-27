@@ -3,14 +3,15 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import { api } from '../../utils/MoviesApi';
 import { useEffect, useState } from 'react';
 
-function MoviesCardList({cards, savedCards,handleAddToSavedCards }) {
+function MoviesCardList({cards, savedCards,handleAddToSavedCards, isSavedMovies,onCardDelete }) {
   // const [cards, setCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(0);
-  const url = 'https://api.nomoreparties.co/';
+  const movieUrl = 'https://api.nomoreparties.co/';
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+
     const handleResize = () => {
       setTimeout(() => {
         if (window.innerWidth >= 900) {
@@ -32,22 +33,25 @@ function MoviesCardList({cards, savedCards,handleAddToSavedCards }) {
     setVisibleCards(visibleCards + ( window.innerWidth >= 900 ? 3 : 2));
   };
 
-
+  const displayedCards = isSavedMovies ? cards : cards.slice(0, visibleCards);
+console.log(isSavedMovies);
   return (
     <section className='cardlist'>
 
         <div className='cardlist__wrap'>
-          {cards.slice(0, visibleCards).map((card) => (
+          {displayedCards.map((card)  => (
             <MoviesCard
-              key={card.link}
+              key={isSavedMovies ? card._id: card.id }
               card={card}
-              link={url + card.image.url}
+              link={isSavedMovies ? card.image : movieUrl + card.image.url}
+              image={movieUrl + card.image.url}
               title={card.nameRU}
               duration={card.duration}
               trailerLink={card.trailerLink}
               savedCards={savedCards}
               handleAddToSavedCards={handleAddToSavedCards}
-              // isSavedMovies={isSavedMovies}
+              isSavedMovies={isSavedMovies}
+              onCardDelete={onCardDelete}
             />
           ))}
         </div>
