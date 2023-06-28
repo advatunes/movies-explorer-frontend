@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Auth from '../../utils/Auth';
+import useValidation from '../../utils/useValidation';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Login({ setLoggedIn, formValue, onChange, setFormValue, setEmail }) {
+function Login({ setLoggedIn, setFormValue, setEmail }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
+
+  const [isError, setIsError] = useState(false);
+
+  React.useEffect(() => {
+    setValues(currentUser);
+    resetValidation();
+  }, [currentUser]);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     tokenCheck();
@@ -27,15 +37,13 @@ function Login({ setLoggedIn, formValue, onChange, setFormValue, setEmail }) {
     }
   }
 
-
-
   function handleSubmit(e) {
     e.preventDefault();
-    const { email, password } = formValue;
-    Auth.login(email, password)
+
+    Auth.login(values.email, values.password)
       .then((data) => {
         if (data.token) {
-          setEmail(email);
+          setEmail(values.email);
           localStorage.setItem('jwt', data.token);
           setFormValue({ username: '', password: '' });
           navigate('/movies', { replace: true });
@@ -46,7 +54,7 @@ function Login({ setLoggedIn, formValue, onChange, setFormValue, setEmail }) {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }
 
   return (
     <div className='login'>
@@ -61,10 +69,10 @@ function Login({ setLoggedIn, formValue, onChange, setFormValue, setEmail }) {
               type='email'
               placeholder='Введите ваш email'
               name='email'
-              onChange={onChange}
+              onChange={onChangeValue}
               required
             />
-            <span className='input__error'>Что-то пошло не так</span>
+            <span className='input__error input__error-visible'>{error.email || ''}</span>
           </div>
           <div className='login__form-group'>
             <p className='login__label'>Пароль</p>
@@ -73,10 +81,11 @@ function Login({ setLoggedIn, formValue, onChange, setFormValue, setEmail }) {
               type='password'
               name='password'
               placeholder='Введите ваш пароль'
-              onChange={onChange}
+              onChange={onChangeValue}
+              minLength='8'
               required
             />
-            <span className='input__error'>Что-то пошло не так.</span>
+            <span className='input__error input__error-visible'>{error.password || ''}</span>
           </div>
           <div className='login__buttons'>
             <button

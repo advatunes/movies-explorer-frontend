@@ -34,7 +34,7 @@ function MoviesCardList({cards, savedCards,handleAddToSavedCards, isSavedMovies,
   };
 
   const displayedCards = isSavedMovies ? cards : cards.slice(0, visibleCards);
-console.log(isSavedMovies);
+
   return (
     <section className='cardlist'>
 

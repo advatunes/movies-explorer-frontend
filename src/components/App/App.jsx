@@ -61,15 +61,14 @@ function App() {
       });
   }
 
+  // const handleChangeFormValue = (e) => {
+  //   const { name, value } = e.target;
 
-  const handleChangeFormValue = (e) => {
-    const { name, value } = e.target;
-
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
-  };
+  //   setFormValue({
+  //     ...formValue,
+  //     [name]: value,
+  //   });
+  // };
 
   useEffect(() => {
     if (loggedIn) {
@@ -85,6 +84,8 @@ function App() {
   }, [loggedIn]);
 
   function handleAddToSavedCards(newCard) {
+    console.log(savedCards);
+    console.log('savedC123ards');
     setSavedCards((prevSavedCards) => [newCard, ...prevSavedCards]);
   }
 
@@ -126,18 +127,20 @@ function App() {
                     shortFilms={shortFilms}
                     // handleSearch={handleSearchSavedMovies}
                     setShortFilms={setShortFilms}
-
                   />
                 }
               />
-              <Route path='profile' element={<ProtectedRoute element={Profile} />} />
+              <Route
+                path='profile'
+                element={<ProtectedRoute element={Profile} loggedIn={loggedIn} />}
+              />
               <Route
                 path='signup'
                 element={
                   <Register
                     formValue={formValue}
-                    loggedIn={loggedIn}
-                    onChange={handleChangeFormValue}
+                   
+                    // onChange={handleChangeFormValue}
                   />
                 }
               />
@@ -149,7 +152,7 @@ function App() {
                     setEmail={setEmail}
                     formValue={formValue}
                     setFormValue={setFormValue}
-                    onChange={handleChangeFormValue}
+                    // onChange={handleChangeFormValue}
                   />
                 }
               />

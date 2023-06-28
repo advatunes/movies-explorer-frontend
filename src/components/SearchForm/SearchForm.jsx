@@ -8,7 +8,9 @@ function SearchForm({ onSearch, setShortFilms  }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    onSearch(searchValue);
+    if (searchValue !== '') {
+      onSearch(searchValue);
+    }
   }
 
   function handleSearchChange(e) {

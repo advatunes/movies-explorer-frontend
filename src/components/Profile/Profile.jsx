@@ -1,7 +1,12 @@
+import React from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+
 function Profile() {
+  const currentUser = React.useContext(CurrentUserContext);
+
   return (
     <div className='profile'>
-      <h2 className='profile__title'>Привет, "name"</h2>
+      <h2 className='profile__title'>{`Привет, ${currentUser.name}`}</h2>
       <div className='profile__container'>
         <form className='profile__form' name='profile'>
           <div className='profile__form-group'>
@@ -9,7 +14,7 @@ function Profile() {
             <input
               className='profile__input'
               type='text'
-              placeholder='Ваше имя'
+              value={`${currentUser.name}`}
               pattern='.{2,}'
               title='Минимальная длина имени: 2 символа'
               required
@@ -18,7 +23,12 @@ function Profile() {
 
           <div className='profile__form-group'>
             <p className='profile__label'>E-mail</p>
-            <input className='profile__input' type='email' placeholder='Ваш email' required />
+            <input
+              className='profile__input'
+              type='email'
+              value={`${currentUser.email}`}
+              required
+            />
           </div>
 
           <div className='profile__buttons'>

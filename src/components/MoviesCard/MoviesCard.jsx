@@ -38,7 +38,7 @@ function MoviesCard({
       <button
 
         className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}
-        onClick={isSavedMovies ? handleDeleteClick : likeMovie(card)}
+        onClick={isSavedMovies ? handleDeleteClick : () => likeMovie(card)}
       ></button>
     </article>
   );

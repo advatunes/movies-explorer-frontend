@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Auth from '../../utils/Auth';
+import useValidation from '../../utils/useValidation';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Register({ formValue, onChange }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
+
+  React.useEffect(() => {
+    setValues(currentUser);
+    resetValidation();
+
+  }, [currentUser]);
+
   const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const { name, email, password } = formValue;
+    // const { name, email, password } = formValue;
 
-    Auth.register(email, password, name)
+    Auth.register(values.email, values.password, values.name)
       .then((res) => {
+        console.log(values.email);
         if (res !== undefined) {
           navigate('/signin', { replace: true });
         }
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   return (
     <div className='register'>
@@ -32,11 +44,13 @@ function Register({ formValue, onChange }) {
               type='text'
               name='name'
               placeholder='Введите ваше имя'
-              value={formValue.name}
-              onChange={onChange}
+              value={values.name || ''}
+              onChange={onChangeValue}
+              minLength='2'
+              maxLength='30'
               required
             />
-            <span className='input__error'>Что-то пошло не так.</span>
+            <span className='input__error input__error-visible'>{error.name || ''}</span>
           </div>
 
           <div className='register__form-group'>
@@ -45,12 +59,12 @@ function Register({ formValue, onChange }) {
               className='register__input'
               type='email'
               name='email'
-              value={formValue.email}
-              onChange={onChange}
+              onChange={onChangeValue}
+              value={values.email || ''}
               placeholder='Введите ваш email'
               required
             />
-            <span className='input__error '>Что-то пошло не так</span>
+            <span className='input__error input__error-visible'>{error.email || ''}</span>
           </div>
 
           <div className='register__form-group'>
@@ -60,11 +74,12 @@ function Register({ formValue, onChange }) {
               type='password'
               placeholder='Введите ваш пароль'
               name='password'
-              value={formValue.password}
-              onChange={onChange}
+              value={values.password || ''}
+              onChange={onChangeValue}
+              minLength='8'
               required
             />
-            <span className='input__error '>Что-то пошло не так.</span>
+            <span className='input__error input__error-visible'> {error.password || ''}</span>
           </div>
 
           <div className='register__buttons'>
