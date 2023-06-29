@@ -40,13 +40,13 @@ function Navigation() {
 
         <div className='burger-menu__content'>
           <nav className='burger-menu__links'>
-            <Link to='/' className='burger-menu__link'>
+            <Link to='/' className='burger-menu__link' onClick={handleBurgerClick}>
               Главная
             </Link>
-            <Link to='/movies' className='burger-menu__link'>
+            <Link to='/movies' className='burger-menu__link' onClick={handleBurgerClick}>
               Фильмы
             </Link>
-            <Link to='/saved-movies' className='burger-menu__link'>
+            <Link to='/saved-movies' className='burger-menu__link' onClick={handleBurgerClick}>
               Сохранённые фильмы
             </Link>
           </nav>
@@ -54,6 +54,7 @@ function Navigation() {
             <Link
               to='/profile'
               className='navigation__link navigation__link-account navigation__link-account_burger'
+              onClick={handleBurgerClick}
             >
               Аккаунт
             </Link>

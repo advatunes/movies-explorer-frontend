@@ -13,6 +13,7 @@ function SavedMovies({  isLoadingPage, isError, shortFilms,setShortFilms }) {
     api
     .getMovies()
     .then((data) => {
+      console.log(data);
       setCards(data)
     })
     .catch((err) => {
@@ -35,13 +36,17 @@ function SavedMovies({  isLoadingPage, isError, shortFilms,setShortFilms }) {
 
     const filteredCards = cards.filter(
       (card) =>
+
         (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
-          card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
-        (!shortFilms || card.duration <= 40)
+          card.nameEN.toLowerCase().includes(searchValue.toLowerCase()))
+        //   &&
+        // (!shortFilms || card.duration <= 40)
+
     );
-    if (shortFilms) {
-    }
+    // if (shortFilms) {
+    // }
     setCards(filteredCards);
+
   }
 
   return (

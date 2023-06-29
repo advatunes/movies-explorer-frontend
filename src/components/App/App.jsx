@@ -35,6 +35,7 @@ function App() {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
   const [shortFilms, setShortFilms] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function handleSearch(searchValue) {
     setIsLoadingPage(true);
@@ -83,9 +84,24 @@ function App() {
     }
   }, [loggedIn]);
 
+  function handleUpdateUser(data) {
+    setErrorMessage('')
+    api
+      .editUserData(data)
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        if ((err = 'Ошибка: 409')) {
+          setErrorMessage('Пользователь с таким email уже существует');
+        } else {
+          setErrorMessage('При обновлении профиля произошла ошибка');
+        }
+      });
+  }
+
   function handleAddToSavedCards(newCard) {
-    console.log(savedCards);
-    console.log('savedC123ards');
     setSavedCards((prevSavedCards) => [newCard, ...prevSavedCards]);
   }
 
@@ -132,14 +148,21 @@ function App() {
               />
               <Route
                 path='profile'
-                element={<ProtectedRoute element={Profile} loggedIn={loggedIn} />}
+                element={
+                  <ProtectedRoute
+                    element={Profile}
+                    loggedIn={loggedIn}
+                    handleUpdateUser={handleUpdateUser}
+                    errorMessage={errorMessage}
+                  />
+                }
               />
               <Route
                 path='signup'
                 element={
                   <Register
                     formValue={formValue}
-                   
+
                     // onChange={handleChangeFormValue}
                   />
                 }

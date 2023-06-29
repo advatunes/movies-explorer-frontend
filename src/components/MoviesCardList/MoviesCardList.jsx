@@ -4,7 +4,7 @@ import { api } from '../../utils/MoviesApi';
 import { useEffect, useState } from 'react';
 
 function MoviesCardList({cards, savedCards,handleAddToSavedCards, isSavedMovies,onCardDelete }) {
-  // const [cards, setCards] = useState([]);
+
   const [visibleCards, setVisibleCards] = useState(0);
   const movieUrl = 'https://api.nomoreparties.co/';
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -56,7 +56,7 @@ function MoviesCardList({cards, savedCards,handleAddToSavedCards, isSavedMovies,
           ))}
         </div>
 
-      {visibleCards < cards.length && (
+        {!isSavedMovies && visibleCards < cards.length &&  (
         <button className='cardlist__button' onClick={handleLoadMore}>
           Ещё
         </button>

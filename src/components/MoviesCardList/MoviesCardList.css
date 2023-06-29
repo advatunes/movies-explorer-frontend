@@ -62,7 +62,7 @@
   }
 
   .cardlist {
-    /* align-items: normal; */
+    align-items: normal;
     margin-top: 50px;
   }
   .cardlist__button {

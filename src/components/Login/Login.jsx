@@ -83,7 +83,7 @@ function Login({ setLoggedIn, setFormValue, setEmail }) {
               placeholder='Введите ваш пароль'
               onChange={onChangeValue}
               minLength='8'
-              required
+                     required
             />
             <span className='input__error input__error-visible'>{error.password || ''}</span>
           </div>

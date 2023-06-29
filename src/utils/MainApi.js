@@ -25,6 +25,18 @@ class Api {
     });
   }
 
+  editUserData(data) {
+    return this._request(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+      }),
+    });
+  }
+
   saveMovie(data) {
     const movieData = {
       country: data.country,
