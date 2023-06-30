@@ -1,13 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
 import useValidation from '../../utils/useValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 function Profile({ handleUpdateUser, errorMessage }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
+
     setValues(currentUser);
     resetValidation();
   }, [currentUser]);
@@ -24,6 +28,11 @@ function Profile({ handleUpdateUser, errorMessage }) {
 
   function handleEditClick(e) {
     setIsEditing(true);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('jwt');
+    navigate('/signin');
   }
 
   return (
@@ -81,6 +90,7 @@ function Profile({ handleUpdateUser, errorMessage }) {
                   className='profile__button profile__button-logout'
                   type='button'
                   aria-label='Выйти из аккаунта'
+                  onClick={handleLogout}
                 >
                   Выйти из аккаунта
                 </button>

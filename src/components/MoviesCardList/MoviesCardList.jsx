@@ -43,6 +43,7 @@ function MoviesCardList({cards, savedCards,handleAddToSavedCards, isSavedMovies,
             <MoviesCard
               key={isSavedMovies ? card._id: card.id }
               card={card}
+              isLiked={card.isLiked}
               link={isSavedMovies ? card.image : movieUrl + card.image.url}
               image={movieUrl + card.image.url}
               title={card.nameRU}

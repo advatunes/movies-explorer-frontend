@@ -2,7 +2,14 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 
 function SearchForm({ onSearch, setShortFilms  }) {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') || '');
+  const [isChecked, setIsChecked] = useState(localStorage.getItem('shortFilms'));
+
+  useEffect(() => {
+    localStorage.setItem('searchValue', searchValue);
+    localStorage.setItem('shortFilms', isChecked);
+  }, [searchValue, isChecked]);
+
 
 
   function handleSubmit(e) {
@@ -39,7 +46,7 @@ function SearchForm({ onSearch, setShortFilms  }) {
         </form>
 
         <label className='search-form__switch'>
-          <input className='search-form__checkbox' type='checkbox' onChange={shortFilmsHandler} />
+          <input className='search-form__checkbox' type='checkbox'  checked={isChecked} onChange={shortFilmsHandler} />
           <span className='search-form__slider'></span>
           <span className='search-form__text'>Короткометражки</span>
         </label>

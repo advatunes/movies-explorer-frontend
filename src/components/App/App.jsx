@@ -37,21 +37,29 @@ function App() {
   const [shortFilms, setShortFilms] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  function handleSearch(searchValue) {
+  const handleSearch = (searchValue) => {
     setIsLoadingPage(true);
     setIsError(false);
-    moviesApi
-      .getInitialCards()
-      .then((data) => {
-        const filteredCards = data.filter(
+
+    Promise.all([moviesApi.getInitialCards(), api.getMovies()])
+      .then(([initialCards, savedMovies]) => {
+        const likedCards = initialCards.map((card) => {
+          const isLiked = savedMovies.some((movie) => movie._id === card._id);
+          return { ...card, isLiked };
+        });
+
+        const filteredCards = likedCards.filter(
           (card) =>
             (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
               card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
             (!shortFilms || card.duration <= 40)
         );
-        if (shortFilms) {
-        }
+
         setCards(filteredCards);
+
+        localStorage.setItem('searchValue', searchValue);
+        localStorage.setItem('shortFilms', shortFilms);
+        localStorage.setItem('movies', JSON.stringify(filteredCards));
       })
       .catch((err) => {
         console.log(err);
@@ -60,23 +68,23 @@ function App() {
       .finally(() => {
         setIsLoadingPage(false);
       });
-  }
+  };
 
-  // const handleChangeFormValue = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setFormValue({
-  //     ...formValue,
-  //     [name]: value,
-  //   });
-  // };
+  useEffect(() => {
+    const savedMovies = JSON.parse(localStorage.getItem('movies'));
+    if (savedMovies) {
+      setCards(savedMovies);
+    }
+  }, []);
 
   useEffect(() => {
     if (loggedIn) {
       api
         .getUserData()
         .then((data) => {
-          setCurrentUser(data);
+          if (data) {
+            setCurrentUser(data);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -85,7 +93,7 @@ function App() {
   }, [loggedIn]);
 
   function handleUpdateUser(data) {
-    setErrorMessage('')
+    setErrorMessage('');
     api
       .editUserData(data)
       .then((data) => {
@@ -101,16 +109,31 @@ function App() {
       });
   }
 
-  function handleAddToSavedCards(newCard) {
-    setSavedCards((prevSavedCards) => [newCard, ...prevSavedCards]);
-  }
+  // function handleAddToSavedCards(newCard) {
+  //   setSavedCards((prevSavedCards) => [newCard, ...prevSavedCards]);
+  // }
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
 
   return (
     <div className='root'>
       <CurrentUserContext.Provider value={currentUser}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Layout />}>
+            <Route
+              path='/'
+              element={
+                <Layout
+                  setLoggedIn={setLoggedIn}
+                  setEmail={setEmail}
+                  formValue={formValue}
+                  setFormValue={setFormValue}
+                  loggedIn={loggedIn}
+                />
+              }
+            >
               <Route index element={<Main />} />
 
               <Route
@@ -120,7 +143,6 @@ function App() {
                     element={Movies}
                     loggedIn={loggedIn}
                     savedCards={savedCards}
-                    handleAddToSavedCards={handleAddToSavedCards}
                     handleSearch={handleSearch}
                     cards={cards}
                     isLoadingPage={isLoadingPage}
@@ -175,6 +197,7 @@ function App() {
                     setEmail={setEmail}
                     formValue={formValue}
                     setFormValue={setFormValue}
+                    handleLogin={handleLogin}
                     // onChange={handleChangeFormValue}
                   />
                 }

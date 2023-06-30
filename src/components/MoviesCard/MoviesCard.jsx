@@ -8,15 +8,21 @@ function MoviesCard({
   duration,
   trailerLink,
   savedCards,
+  isLiked,
   handleAddToSavedCards,
   isSavedMovies,
-  onCardDelete
+  onCardDelete,
 }) {
+
+
   function likeMovie() {
+   
+    console.log(isLiked);
     api
       .saveMovie(card)
       .then((data) => {
         handleAddToSavedCards(data);
+
       })
       .catch((err) => console.log(err));
   }
@@ -36,8 +42,9 @@ function MoviesCard({
         <img className='card__image' src={link} alt={title} />
       </a>
       <button
-
-        className={`card__like  ${isSavedMovies ? 'card__like_dislike' : ''}`}
+        className={`card__like ${isLiked}  ? 'card__like_active' : '' ${
+          isSavedMovies ? 'card__like_dislike' : ''
+        }`}
         onClick={isSavedMovies ? handleDeleteClick : () => likeMovie(card)}
       ></button>
     </article>

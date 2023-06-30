@@ -2,40 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Auth from '../../utils/Auth';
 import useValidation from '../../utils/useValidation';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Login({ setLoggedIn, setFormValue, setEmail }) {
-  const currentUser = React.useContext(CurrentUserContext);
-  const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
+function Login({ setFormValue, setEmail, handleLogin }) {
+  const { values, setValues, error, onChangeValue, resetValidation } = useValidation();
 
-  const [isError, setIsError] = useState(false);
-
-  React.useEffect(() => {
-    setValues(currentUser);
-    resetValidation();
-  }, [currentUser]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    tokenCheck();
+    resetValidation();
   }, []);
-
-  function tokenCheck() {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      Auth.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setEmail(res.email);
-            setLoggedIn(true);
-            navigate('/movies', { replace: true });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -44,9 +19,12 @@ function Login({ setLoggedIn, setFormValue, setEmail }) {
       .then((data) => {
         if (data.token) {
           setEmail(values.email);
+
           localStorage.setItem('jwt', data.token);
           setFormValue({ username: '', password: '' });
+          handleLogin();
           navigate('/movies', { replace: true });
+
         } else {
           return;
         }
@@ -83,7 +61,7 @@ function Login({ setLoggedIn, setFormValue, setEmail }) {
               placeholder='Введите ваш пароль'
               onChange={onChangeValue}
               minLength='8'
-                     required
+              required
             />
             <span className='input__error input__error-visible'>{error.password || ''}</span>
           </div>

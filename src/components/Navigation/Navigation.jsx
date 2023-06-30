@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Navigation() {
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleBurgerClick = () => {
@@ -16,11 +17,7 @@ function Navigation() {
         <Link to='/movies' href='#' className='navigation__link'>
           Фильмы
         </Link>
-        <Link
-          to='/saved-movies'
-          href='http://localhost:3000/'
-          className='navigation__link navigation__link_fw400'
-        >
+        <Link to='/saved-movies' className='navigation__link navigation__link_fw400  '>
           Сохранённые фильмы
         </Link>
       </div>
@@ -43,10 +40,19 @@ function Navigation() {
             <Link to='/' className='burger-menu__link' onClick={handleBurgerClick}>
               Главная
             </Link>
-            <Link to='/movies' className='burger-menu__link' onClick={handleBurgerClick}>
+
+            <Link
+              to='/movies'
+              className={`burger-menu__link ${
+                location.pathname === '/movies' ? 'navigation__link_underline' : ''
+              }`}
+              onClick={handleBurgerClick}
+            >
               Фильмы
             </Link>
-            <Link to='/saved-movies' className='burger-menu__link' onClick={handleBurgerClick}>
+            <Link to='/saved-movies'   className={`burger-menu__link ${
+                location.pathname === '/saved-movies' ? 'navigation__link_underline' : ''
+              }`} onClick={handleBurgerClick}>
               Сохранённые фильмы
             </Link>
           </nav>
