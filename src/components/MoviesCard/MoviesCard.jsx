@@ -1,5 +1,6 @@
 import { api } from '../../utils/MainApi';
 import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function MoviesCard({
   card,
@@ -9,43 +10,45 @@ function MoviesCard({
   trailerLink,
   savedCards,
   isLiked,
-  handleAddToSavedCards,
   isSavedMovies,
   onCardDelete,
+  onCardLike,
 }) {
+  const isCardLiked = savedCards.some((savedCard) => savedCard.movieId === card.id);
 
-
-  function likeMovie() {
-   
-    console.log(isLiked);
-    api
-      .saveMovie(card)
-      .then((data) => {
-        handleAddToSavedCards(data);
-
-      })
-      .catch((err) => console.log(err));
-  }
+  useEffect(() => {
+    savedCards = JSON.parse(localStorage.getItem('savedCards'));
+  }, []);
 
   function handleDeleteClick() {
     return onCardDelete(card);
   }
+  function handleLikeClick() {
+    return onCardLike(card);
+  }
 
   return (
     <article className='card'>
-      <a className='card__link' href={trailerLink} target='_blank'>
+      <Link to={trailerLink} className='card__link' target='_blank'>
         <div className='card__wrap'>
           <h2 className='card__title'>{title}</h2>
           <p className='card__movie-duration'>{duration}</p>
         </div>
 
         <img className='card__image' src={link} alt={title} />
-      </a>
+      </Link>
+
       <button
-        className={`card__like ${isLiked}  ? 'card__like_active' : '' ${
+        className={` card__like ${isCardLiked ? 'card__like_active' : ''} ${
           isSavedMovies ? 'card__like_dislike' : ''
         }`}
-        onClick={isSavedMovies ? handleDeleteClick : () => likeMovie(card)}
+        onClick={() => {
+          if (isSavedMovies) {
+            handleDeleteClick();
+          } else if (!isCardLiked) {
+            handleLikeClick();
+          }
+        }}
       ></button>
     </article>
   );

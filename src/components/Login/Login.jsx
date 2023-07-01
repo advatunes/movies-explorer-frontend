@@ -36,7 +36,7 @@ function Login({ setFormValue, setEmail, handleLogin }) {
 
   return (
     <div className='login'>
-      <Link to='/' className='login__logo navigation__logo' href='#'></Link>
+      <Link to='/' className='login__logo navigation__logo'></Link>
       <h2 className='login__title'>Рады видеть!</h2>
       <div className='login__container'>
         <form className='login__form' name='login' onSubmit={handleSubmit} noValidate>

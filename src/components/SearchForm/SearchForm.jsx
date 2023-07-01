@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 
 function SearchForm({ onSearch, setShortFilms  }) {
   const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') || '');
-  const [isChecked, setIsChecked] = useState(localStorage.getItem('shortFilms'));
+  const [isChecked, setIsChecked] = useState(localStorage.getItem('shortFilms') === 'true' || false);
+
 
   useEffect(() => {
+
     localStorage.setItem('searchValue', searchValue);
     localStorage.setItem('shortFilms', isChecked);
   }, [searchValue, isChecked]);
-
 
 
   function handleSubmit(e) {
@@ -25,8 +26,12 @@ function SearchForm({ onSearch, setShortFilms  }) {
   }
 
   function shortFilmsHandler() {
+
+    setIsChecked((prevChecked) => !prevChecked);
     setShortFilms((prevShortFilms) => !prevShortFilms);
   }
+
+
 
   return (
       <section className='search-form'>

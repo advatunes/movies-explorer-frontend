@@ -4,12 +4,21 @@ import Preloader from '../Preloader/Preloader';
 import { useEffect, useState } from 'react';
 import { api } from '../../utils/MoviesApi';
 
-function Movies({ savedCards, handleAddToSavedCards, cards, handleSearch, isLoadingPage, isError, shortFilms, setShortFilms }) {
-
-
+function Movies({
+  savedCards,
+  handleAddToSavedCards,
+  cards,
+  handleSearch,
+  isLoadingPage,
+  isError,
+  shortFilms,
+  setShortFilms,
+  onCardDelete,
+  onCardLike,
+}) {
   return (
     <main className='movies'>
-      <SearchForm onSearch={handleSearch} setShortFilms={setShortFilms} />
+      <SearchForm onSearch={handleSearch} shortFilms={shortFilms}setShortFilms={setShortFilms} />
 
       {isLoadingPage ? (
         <Preloader />
@@ -25,6 +34,8 @@ function Movies({ savedCards, handleAddToSavedCards, cards, handleSearch, isLoad
           cards={cards}
           savedCards={savedCards}
           handleAddToSavedCards={handleAddToSavedCards}
+          onCardDelete={onCardDelete}
+          onCardLike={onCardLike}
         />
       )}
     </main>

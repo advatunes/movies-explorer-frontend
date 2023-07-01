@@ -22,7 +22,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import SavedMovies from '../SavedMovies/SavedMovies';
 
 function App() {
-  const [savedCards, setSavedCards] = useState([]);
+
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [formValue, setFormValue] = useState({
@@ -32,9 +32,10 @@ function App() {
   const [email, setEmail] = useState(formValue.email);
 
   const [cards, setCards] = useState([]);
+  const [savedCards, setSavedCards] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [shortFilms, setShortFilms] = useState(false);
+  const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms'))
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = (searchValue) => {
@@ -42,23 +43,20 @@ function App() {
     setIsError(false);
 
     Promise.all([moviesApi.getInitialCards(), api.getMovies()])
-      .then(([initialCards, savedMovies]) => {
-        const likedCards = initialCards.map((card) => {
-          const isLiked = savedMovies.some((movie) => movie._id === card._id);
-          return { ...card, isLiked };
-        });
+      .then(([initialCards, savedCards]) => {
+        setSavedCards(savedCards)
 
-        const filteredCards = likedCards.filter(
+           const filteredCards = initialCards.filter(
           (card) =>
             (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
               card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
-            (!shortFilms || card.duration <= 40)
+            (shortFilms || card.duration <= 40)
         );
-
         setCards(filteredCards);
 
         localStorage.setItem('searchValue', searchValue);
-        localStorage.setItem('shortFilms', shortFilms);
+        localStorage.setItem('savedCards', JSON.stringify(savedCards));
+
         localStorage.setItem('movies', JSON.stringify(filteredCards));
       })
       .catch((err) => {
@@ -71,11 +69,56 @@ function App() {
   };
 
   useEffect(() => {
-    const savedMovies = JSON.parse(localStorage.getItem('movies'));
-    if (savedMovies) {
-      setCards(savedMovies);
+    if (shortFilms) {
+      setCards((prevCards) => {
+        const filteredCards = prevCards.filter((card) => card.duration <= 40);
+        return filteredCards;
+      });
     }
+  }, [shortFilms]);
+
+
+  useEffect(() => {
+    const savedSearchMovies = JSON.parse(localStorage.getItem('movies'));
+    if (savedSearchMovies) {
+      setCards(savedSearchMovies);
+    }
+
   }, []);
+
+  function handleCardLike(card) {
+    api
+      .saveMovie(card)
+      .then((newCard) => {
+        setSavedCards((prevSavedCards) => [...prevSavedCards, newCard]);
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+    // function likeMovie() {
+  //   api
+  //     .saveMovie(card)
+  //     .then((newCard) => {
+  //       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
+
+  function handleDeleteCard(card) {
+
+    api
+      .deleteMovie(card._id)
+      .then(() => {
+        setSavedCards(savedCards.filter((c) => c._id !== card._id));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
     if (loggedIn) {
@@ -149,6 +192,8 @@ function App() {
                     isError={isError}
                     shortFilms={shortFilms}
                     setShortFilms={setShortFilms}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleDeleteCard}
                   />
                 }
               />
@@ -159,11 +204,13 @@ function App() {
                     element={SavedMovies}
                     loggedIn={loggedIn}
                     savedCards={savedCards}
+                    setSavedCards={setSavedCards}
                     isLoadingPage={isLoadingPage}
                     isError={isError}
-                    setCards={setCards}
+                                        setCards={setCards}
                     shortFilms={shortFilms}
-                    // handleSearch={handleSearchSavedMovies}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleDeleteCard}
                     setShortFilms={setShortFilms}
                   />
                 }
