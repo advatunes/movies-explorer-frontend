@@ -35,7 +35,9 @@ function App() {
   const [savedCards, setSavedCards] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms'))
+  const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms') === 'true');
+  const [showNotification, setShowNotification] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = (searchValue) => {
@@ -50,10 +52,11 @@ function App() {
           (card) =>
             (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
               card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
-            (shortFilms || card.duration <= 40)
+            (!shortFilms || card.duration <= 40)
+
         );
         setCards(filteredCards);
-
+        console.log(shortFilms);
         localStorage.setItem('searchValue', searchValue);
         localStorage.setItem('savedCards', JSON.stringify(savedCards));
 
@@ -141,6 +144,7 @@ function App() {
       .editUserData(data)
       .then((data) => {
         setCurrentUser(data);
+        setShowNotification(true);
       })
       .catch((err) => {
         console.log(err);
@@ -223,6 +227,8 @@ function App() {
                     loggedIn={loggedIn}
                     handleUpdateUser={handleUpdateUser}
                     errorMessage={errorMessage}
+                    showNotification={showNotification}
+                    setShowNotification={setShowNotification}
                   />
                 }
               />

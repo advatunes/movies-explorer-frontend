@@ -3,15 +3,18 @@ import useValidation from '../../utils/useValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-
-function Profile({ handleUpdateUser, errorMessage }) {
+function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNotification }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isEditing, setIsEditing] = useState(false);
+
+  if (isEditing) {
+    setShowNotification(false);
+  }
+
   const navigate = useNavigate();
 
   useEffect(() => {
-
     setValues(currentUser);
     resetValidation();
   }, [currentUser]);
@@ -70,6 +73,10 @@ function Profile({ handleUpdateUser, errorMessage }) {
               required
             />
           </div>
+
+          {showNotification && (
+            <div className='profile__notification'>Профиль успешно сохранен</div>
+          )}
 
           <div className='profile__buttons'>
             <span className='input__error input__error-visible profile__error'>

@@ -19,39 +19,36 @@ function SavedMovies({
 
   // const [isSavedMovies, setIsSavedMovies] = useState(true);
   const isSavedMovies = true;
+  const [originalCards, setOriginalCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
 
   useEffect(() => {
     api
       .getMovies()
       .then((data) => {
         setSavedCards(data);
+        setOriginalCards(data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  // function handleDeleteCard(card) {
-  //   api
-  //     .deleteMovie(card._id)
-  //     .then(() => {
-  //       setCards(cards.filter((c) => c._id !== card._id));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  useEffect(() => {
+    if (shortFilms) {
+      setSavedCards(savedCards.filter((card) => card.duration <= 40));
+    } else {
+      setSavedCards(filteredCards);
+    }
+  }, [shortFilms]);
 
   function handleSearchSavedMovies(searchValue) {
-    const filteredCards = savedCards.filter(
+    setFilteredCards(originalCards.filter(
       (card) =>
         card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
         card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
-      //   &&
-      // (!shortFilms || card.duration <= 40)
-    );
-    // if (shortFilms) {
-    // }
+    ))
+
     setSavedCards(filteredCards);
   }
 
