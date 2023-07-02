@@ -5,7 +5,7 @@ import { api } from '../../utils/MainApi';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-import {checkToken} from '../../utils/Auth.js'
+import {checkToken} from '../../utils/auth.js'
 
 function Layout({ setLoggedIn, setCurrentUser, loggedIn }) {
   const navigate = useNavigate();

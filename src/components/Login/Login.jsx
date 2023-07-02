@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {login} from '../../utils/Auth.js'
+import {login} from '../../utils/auth.js'
 import useValidation from '../../utils/useValidation';
 
 function Login({ setFormValue, setEmail, handleLogin }) {
