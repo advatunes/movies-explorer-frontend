@@ -1,7 +1,9 @@
 # movies-explorer-frontend
 Репозиторий для приложения проекта `Movies` фронтенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями
 
-ссылка на пул реквест https://github.com/advatunes/movies-explorer-frontend/pull/2
+Адрес сайта https://advatunes.movies.nomoreparties.sbs
+
+Ссылка на пул реквест: https://github.com/advatunes/movies-explorer-frontend/pull/2
 
 Адрес репозитория: https://github.com/advatunes/movies-explorer-frontend
 
