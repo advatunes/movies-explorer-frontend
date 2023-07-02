@@ -1,14 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../../utils/MainApi';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-import * as Auth from '../../utils/Auth';
+import {checkToken} from '../../utils/Auth.js'
 
-function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
+function Layout({ setLoggedIn, setCurrentUser, loggedIn }) {
   const navigate = useNavigate();
+
 
   useEffect(() => {
     tokenCheck();
@@ -17,7 +18,7 @@ function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
   function tokenCheck() {
     if (localStorage.getItem('jwt')) {
       const jwt = localStorage.getItem('jwt');
-      Auth.checkToken(jwt)
+      checkToken(jwt)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
@@ -29,6 +30,23 @@ function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
         });
     }
   }
+
+  useEffect(() => {
+    if (loggedIn) {
+      api
+        .getUserData()
+        .then((data) => {
+
+          if (data) {
+
+            setCurrentUser(data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
 
   return (
     <>

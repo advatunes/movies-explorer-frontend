@@ -40,6 +40,9 @@ function App() {
 
   const [errorMessage, setErrorMessage] = useState('');
 
+
+
+
   const handleSearch = (searchValue) => {
     setIsLoadingPage(true);
     setIsError(false);
@@ -106,21 +109,6 @@ function App() {
       });
   }
 
-  useEffect(() => {
-    if (loggedIn) {
-      api
-        .getUserData()
-        .then((data) => {
-          if (data) {
-            setCurrentUser(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [loggedIn]);
-
   function handleUpdateUser(data) {
     setErrorMessage('');
     api
@@ -138,10 +126,10 @@ function App() {
         }
       });
   }
-
   const handleLogin = () => {
     setLoggedIn(true);
   };
+
 
   return (
     <div className='root'>
@@ -157,6 +145,7 @@ function App() {
                   formValue={formValue}
                   setFormValue={setFormValue}
                   loggedIn={loggedIn}
+                  setCurrentUser={setCurrentUser}
                 />
               }
             >
@@ -225,7 +214,6 @@ function App() {
                 path='signin'
                 element={
                   <Login
-                    setLoggedIn={setLoggedIn}
                     setEmail={setEmail}
                     formValue={formValue}
                     setFormValue={setFormValue}

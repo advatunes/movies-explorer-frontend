@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Auth from '../../utils/Auth';
+import {register} from '../../utils/Auth.js'
 import useValidation from '../../utils/useValidation';
 
 function Register() {
@@ -15,9 +15,8 @@ function Register() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    Auth.register(values.email, values.password, values.name)
+    register(values.email, values.password, values.name)
       .then((res) => {
-        console.log(values.email);
         if (res !== undefined) {
           navigate('/signin', { replace: true });
         }
