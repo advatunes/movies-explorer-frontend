@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://api.advatunes.movies.nomoredomains.rocks';
 
-export const register = (email, password, name) => {
+export function register(email, password, name) {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
@@ -15,9 +15,9 @@ export const register = (email, password, name) => {
       }
     })
     .catch((err) => console.log(err));
-};
+}
 
-export const login = (email, password) => {
+export function login(email, password) {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
@@ -31,9 +31,8 @@ export const login = (email, password) => {
     })
 
     .catch((err) => console.log(err));
-};
-
-export const checkToken = (jwt) => {
+}
+export function checkToken(jwt) {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
@@ -45,4 +44,4 @@ export const checkToken = (jwt) => {
       return response.json();
     })
     .then((data) => data);
-};
+}
