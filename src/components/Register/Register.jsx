@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { register }  from '../../utils/Auth';
+import Auth from '../../utils/Auth';
 import useValidation from '../../utils/useValidation';
 
 function Register() {
@@ -15,7 +15,7 @@ function Register() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    register(values.email, values.password, values.name)
+    Auth.register(values.email, values.password, values.name)
       .then((res) => {
         console.log(values.email);
         if (res !== undefined) {
