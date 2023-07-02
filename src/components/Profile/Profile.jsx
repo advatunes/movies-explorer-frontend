@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useValidation from '../../utils/useValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNotification }) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -35,6 +35,10 @@ function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNoti
 
   function handleLogout() {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('savedCards');
+    localStorage.removeItem('shortFilms');
+    localStorage.removeItem('searchValue');
+    localStorage.removeItem('movies');
     navigate('/signin');
   }
 

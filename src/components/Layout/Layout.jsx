@@ -11,7 +11,6 @@ function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     tokenCheck();
   }, []);
 

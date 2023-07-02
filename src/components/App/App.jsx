@@ -2,8 +2,6 @@ import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { useNavigate } from 'react-router-dom';
-
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import Main from '../Main/Main';
@@ -14,7 +12,6 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import { api } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi';
-import * as Auth from '../../utils/Auth';
 
 import Layout from '../Layout/Layout';
 
@@ -22,7 +19,6 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import SavedMovies from '../SavedMovies/SavedMovies';
 
 function App() {
-
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [formValue, setFormValue] = useState({
@@ -32,7 +28,11 @@ function App() {
   const [email, setEmail] = useState(formValue.email);
 
   const [cards, setCards] = useState([]);
-  const [savedCards, setSavedCards] = useState([]);
+  const [originalCards, setOriginalCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
+  const [savedCards, setSavedCards] = useState(
+    JSON.parse(localStorage.getItem('savedCards')) || []
+  );
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
   const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms') === 'true');
@@ -45,21 +45,20 @@ function App() {
     setIsError(false);
 
     Promise.all([moviesApi.getInitialCards(), api.getMovies()])
-      .then(([initialCards, savedCards]) => {
-        setSavedCards(savedCards)
+      .then(async ([initialCards, savedCards]) => {
+        setOriginalCards(initialCards);
+        setSavedCards(savedCards);
 
-           const filteredCards = initialCards.filter(
+        const filteredCards = await initialCards.filter(
           (card) =>
-            (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
-              card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
-            (!shortFilms || card.duration <= 40)
-
+            card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
+            card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
         );
-        setCards(filteredCards);
-        console.log(shortFilms);
-        localStorage.setItem('searchValue', searchValue);
-        localStorage.setItem('savedCards', JSON.stringify(savedCards));
+        if (shortFilms) {
+          setCards(filteredCards.filter((card) => card.duration <= 40));
+        } else setCards(filteredCards);
 
+        localStorage.setItem('savedCards', JSON.stringify(savedCards));
         localStorage.setItem('movies', JSON.stringify(filteredCards));
       })
       .catch((err) => {
@@ -72,47 +71,31 @@ function App() {
   };
 
   useEffect(() => {
-    if (shortFilms) {
-      setCards((prevCards) => {
-        const filteredCards = prevCards.filter((card) => card.duration <= 40);
-        return filteredCards;
-      });
+    const savedSearchMovies = JSON.parse(localStorage.getItem('movies'));
+
+    if (savedSearchMovies !== null) {
+      if (shortFilms) {
+        setCards(savedSearchMovies.filter((card) => card.duration <= 40));
+      } else {
+        setCards(filteredCards.length === 0 ? savedSearchMovies : filteredCards);
+      }
     }
   }, [shortFilms]);
-
-
-  useEffect(() => {
-    const savedSearchMovies = JSON.parse(localStorage.getItem('movies'));
-    if (savedSearchMovies) {
-      setCards(savedSearchMovies);
-    }
-
-  }, []);
 
   function handleCardLike(card) {
     api
       .saveMovie(card)
       .then((newCard) => {
         setSavedCards((prevSavedCards) => [...prevSavedCards, newCard]);
-
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-
-    // function likeMovie() {
-  //   api
-  //     .saveMovie(card)
-  //     .then((newCard) => {
-  //       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
+  localStorage.setItem('savedCards', JSON.stringify(savedCards));
 
   function handleDeleteCard(card) {
-
     api
       .deleteMovie(card._id)
       .then(() => {
@@ -156,10 +139,6 @@ function App() {
       });
   }
 
-  // function handleAddToSavedCards(newCard) {
-  //   setSavedCards((prevSavedCards) => [newCard, ...prevSavedCards]);
-  // }
-
   const handleLogin = () => {
     setLoggedIn(true);
   };
@@ -198,6 +177,7 @@ function App() {
                     setShortFilms={setShortFilms}
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
+                    originalCards={originalCards}
                   />
                 }
               />
@@ -211,7 +191,7 @@ function App() {
                     setSavedCards={setSavedCards}
                     isLoadingPage={isLoadingPage}
                     isError={isError}
-                                        setCards={setCards}
+                    setCards={setCards}
                     shortFilms={shortFilms}
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
@@ -238,7 +218,6 @@ function App() {
                   <Register
                     formValue={formValue}
 
-                    // onChange={handleChangeFormValue}
                   />
                 }
               />
@@ -251,7 +230,7 @@ function App() {
                     formValue={formValue}
                     setFormValue={setFormValue}
                     handleLogin={handleLogin}
-                    // onChange={handleChangeFormValue}
+
                   />
                 }
               />

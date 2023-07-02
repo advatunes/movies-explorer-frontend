@@ -1,6 +1,5 @@
-import { api } from '../../utils/MainApi';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function MoviesCard({
   card,
@@ -15,10 +14,6 @@ function MoviesCard({
   onCardLike,
 }) {
   const isCardLiked = savedCards.some((savedCard) => savedCard.movieId === card.id);
-
-  useEffect(() => {
-    savedCards = JSON.parse(localStorage.getItem('savedCards'));
-  }, []);
 
   function handleDeleteClick() {
     return onCardDelete(card);

@@ -24,7 +24,6 @@ function Login({ setFormValue, setEmail, handleLogin }) {
           setFormValue({ username: '', password: '' });
           handleLogin();
           navigate('/movies', { replace: true });
-
         } else {
           return;
         }

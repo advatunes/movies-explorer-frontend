@@ -6,18 +6,14 @@ import { api } from '../../utils/MainApi';
 
 function SavedMovies({
   savedCards,
-  setSavedCards,
   isLoadingPage,
   isError,
   shortFilms,
   setShortFilms,
-
   onCardDelete,
   onCardLike,
+  setSavedCards,
 }) {
-  // const [cards, setCards] = useState([]);
-
-  // const [isSavedMovies, setIsSavedMovies] = useState(true);
   const isSavedMovies = true;
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
@@ -38,18 +34,20 @@ function SavedMovies({
     if (shortFilms) {
       setSavedCards(savedCards.filter((card) => card.duration <= 40));
     } else {
-      setSavedCards(filteredCards);
+      setSavedCards(filteredCards.length === 0 ? originalCards : filteredCards);
     }
   }, [shortFilms]);
 
   function handleSearchSavedMovies(searchValue) {
-    setFilteredCards(originalCards.filter(
+    const filteredCards = originalCards.filter(
       (card) =>
         card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
         card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
-    ))
+    );
 
-    setSavedCards(filteredCards);
+    if (shortFilms) {
+      setSavedCards(filteredCards.filter((card) => card.duration <= 40));
+    } else setSavedCards(filteredCards);
   }
 
   return (
@@ -63,15 +61,16 @@ function SavedMovies({
           Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз.
         </p>
-      ) : savedCards.length === 0 ? (
+      ) :   savedCards.length === 0 && originalCards.length !== 0 ? (
         <p className='movies__text'>Ничего не найдено.</p>
-      ) : (
+      ) :  (
         <MoviesCardList
           cards={savedCards}
           savedCards={savedCards}
           isSavedMovies={isSavedMovies}
           onCardDelete={onCardDelete}
           onCardLike={onCardLike}
+          shortFilms={shortFilms}
         />
       )}
     </main>

@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Auth from '../../utils/Auth';
 import useValidation from '../../utils/useValidation';
 
-function Register({ formValue, onChange }) {
+function Register() {
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
 
   useEffect(() => {
-
     resetValidation();
-
   }, []);
 
   const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    // const { name, email, password } = formValue;
 
     Auth.register(values.email, values.password, values.name)
       .then((res) => {

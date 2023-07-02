@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import NavPromo from '../NavPromo/NavPromo';
 import Navigation from '../Navigation/Navigation';
 

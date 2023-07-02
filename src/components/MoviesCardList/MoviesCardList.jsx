@@ -1,6 +1,5 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-import { api } from '../../utils/MoviesApi';
 import { useEffect, useState } from 'react';
 
 function MoviesCardList({
@@ -10,16 +9,12 @@ function MoviesCardList({
   isSavedMovies,
   onCardDelete,
   onCardLike,
-  handleDeleteCard,
-  handleCardLike,
 }) {
   const [visibleCards, setVisibleCards] = useState(0);
   const movieUrl = 'https://api.nomoreparties.co/';
-  const [isLoadingPage, setIsLoadingPage] = useState(true);
-  const [isError, setIsError] = useState(false);
-
+  
   useEffect(() => {
-      const handleResize = () => {
+    const handleResize = () => {
       setTimeout(() => {
         if (window.innerWidth >= 900) {
           setVisibleCards(12);
