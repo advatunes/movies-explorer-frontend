@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-import Auth from '../../utils/Auth';
+import * as Auth from '../../utils/Auth';
 
 function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
   const navigate = useNavigate();

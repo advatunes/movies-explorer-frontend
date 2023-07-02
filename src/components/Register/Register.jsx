@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Auth from '../../utils/Auth';
+import * as Auth from '../../utils/Auth';
 import useValidation from '../../utils/useValidation';
 
 function Register() {
