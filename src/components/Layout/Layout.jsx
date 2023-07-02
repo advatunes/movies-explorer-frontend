@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-import * as Auth from '../../utils/Auth';
+import {checkToken} from '../../utils/Auth';
 
 function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Layout({ setLoggedIn, setFormValue, setEmail, loggedIn }) {
   function tokenCheck() {
     if (localStorage.getItem('jwt')) {
       const jwt = localStorage.getItem('jwt');
-      Auth.checkToken(jwt)
+      checkToken(jwt)
         .then((res) => {
           if (res) {
             setLoggedIn(true);

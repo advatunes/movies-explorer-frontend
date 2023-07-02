@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Auth from '../../utils/Auth';
+import {login} from '../../utils/Auth';
 import useValidation from '../../utils/useValidation';
 
 function Login({ setFormValue, setEmail, handleLogin }) {
@@ -15,7 +15,7 @@ function Login({ setFormValue, setEmail, handleLogin }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    Auth.login(values.email, values.password)
+    login(values.email, values.password)
       .then((data) => {
         if (data.token) {
           setEmail(values.email);
