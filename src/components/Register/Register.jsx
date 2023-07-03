@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {register} from '../../utils/auth.js'
+import { register } from '../../utils/auth.js';
 import useValidation from '../../utils/useValidation';
 
 function Register() {
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     resetValidation();
@@ -14,14 +16,21 @@ function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    setIsSubmitting(true);
     register(values.email, values.password, values.name)
       .then((res) => {
         if (res !== undefined) {
           navigate('/signin', { replace: true });
         }
+        setShowNotification(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setShowNotification(true);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (
@@ -41,6 +50,7 @@ function Register() {
               onChange={onChangeValue}
               minLength='2'
               maxLength='30'
+              disabled={isSubmitting}
               required
             />
             <span className='input__error input__error-visible'>{error.name || ''}</span>
@@ -55,6 +65,7 @@ function Register() {
               onChange={onChangeValue}
               value={values.email || ''}
               placeholder='Введите ваш email'
+              disabled={isSubmitting}
               required
             />
             <span className='input__error input__error-visible'>{error.email || ''}</span>
@@ -70,16 +81,22 @@ function Register() {
               value={values.password || ''}
               onChange={onChangeValue}
               minLength='8'
+              disabled={isSubmitting}
               required
             />
             <span className='input__error input__error-visible'> {error.password || ''}</span>
           </div>
 
+          {showNotification ? <p className='notification'>Произошла ошибка</p> : ''}
+
           <div className='register__buttons'>
             <button
-              className='register__button button-orange'
+              className={`register__button button-orange ${
+                !formValid ? 'profile__button_disabled' : ''
+              }`}
               type='submit'
               aria-label='Зарегистрироваться'
+              disabled={!formValid || isSubmitting}
             >
               Зарегистрироваться
             </button>

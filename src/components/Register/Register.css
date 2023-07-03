@@ -93,6 +93,11 @@
   opacity: 1;
 }
 
+.profile__button_disabled:hover {
+  background: #ff6838;
+  opacity: 0.5;
+}
+
 .register__text {
   text-align: center;
   margin: 0;

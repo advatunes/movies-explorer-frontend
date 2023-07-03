@@ -13,6 +13,7 @@ function Layout({ setLoggedIn, setCurrentUser, loggedIn }) {
 
   useEffect(() => {
     tokenCheck();
+
   }, []);
 
   function tokenCheck() {
@@ -27,6 +28,7 @@ function Layout({ setLoggedIn, setCurrentUser, loggedIn }) {
         })
         .catch((err) => {
           console.log(err);
+          console.log("qeqe");
         });
     }
   }

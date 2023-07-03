@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import validator from 'validator';
 
 export default function useValidation() {
   const [values, setValues] = useState({});
@@ -12,11 +13,20 @@ export default function useValidation() {
   function onChangeValue(e) {
     const { name, value } = e.target;
     const error = e.target.validationMessage;
-    setValues((values) => ({ ...values, [name]: value }));
-    setError((errors) => ({ ...errors, [name]: error }));
 
-    const formValid = e.target.form.checkValidity();
-    setFormValid(formValid);
+    if (name === 'email') {
+      setError((errors) => ({
+        ...errors,
+        [name]: validator.isEmail(value) ? error : 'Некорректный адрес электронной почты',
+      }));
+      setFormValid(formValid && validator.isEmail(value));
+    } else {
+      setError((errors) => ({ ...errors, [name]: error }));
+      const formValid = e.target.form.checkValidity();
+      setFormValid(formValid);
+    }
+
+    setValues((values) => ({ ...values, [name]: value }));
   }
 
   return {
