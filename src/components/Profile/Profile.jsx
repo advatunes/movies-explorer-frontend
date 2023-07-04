@@ -3,11 +3,16 @@ import useValidation from '../../utils/useValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useNavigate } from 'react-router-dom';
 
-function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNotification }) {
+function Profile({
+  handleUpdateUser,
+  errorMessage,
+  showNotification,
+  setShowNotification,
+  setLoggedIn,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isEditing, setIsEditing] = useState(false);
-
 
   if (isEditing) {
     setShowNotification(false);
@@ -35,11 +40,8 @@ function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNoti
   }
 
   function handleLogout() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('savedCards');
-    localStorage.removeItem('shortFilms');
-    localStorage.removeItem('searchValue');
-    localStorage.removeItem('movies');
+    setLoggedIn(false);
+    localStorage.clear();
     navigate('/signin');
   }
 

@@ -14,15 +14,13 @@ function SavedMovies({
   onCardLike,
   setSavedCards,
   isSavedMovies,
-  setIsSavedMovies
+  setIsSavedMovies,
 }) {
-
-
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
 
   useEffect(() => {
-    setIsSavedMovies(true)
+    setIsSavedMovies(true);
     api
       .getMovies()
       .then((data) => {
@@ -65,9 +63,9 @@ function SavedMovies({
           Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз.
         </p>
-      ) :   savedCards.length === 0 && originalCards.length !== 0 ? (
+      ) : savedCards.length === 0 && originalCards.length !== 0 ? (
         <p className='movies__text'>Ничего не найдено.</p>
-      ) :  (
+      ) : (
         <MoviesCardList
           cards={savedCards}
           savedCards={savedCards}

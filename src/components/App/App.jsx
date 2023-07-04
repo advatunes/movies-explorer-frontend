@@ -30,7 +30,9 @@ function App() {
   const [cards, setCards] = useState([]);
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
-  const [savedCards, setSavedCards] = useState(JSON.parse(localStorage.getItem('savedCards')) || []);
+  const [savedCards, setSavedCards] = useState(
+    JSON.parse(localStorage.getItem('savedCards')) || []
+  );
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
   const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms') === 'true');
@@ -94,7 +96,6 @@ function App() {
   localStorage.setItem('savedCards', JSON.stringify(savedCards));
 
   function handleDeleteCard(card) {
-   
     api
       .deleteMovie(card._id)
       .then(() => {
@@ -127,12 +128,12 @@ function App() {
   };
 
   return (
-    <div className="root">
+    <div className='root'>
       <CurrentUserContext.Provider value={currentUser}>
         <BrowserRouter>
           <Routes>
             <Route
-              path="/"
+              path='/'
               element={
                 <Layout
                   setLoggedIn={setLoggedIn}
@@ -142,11 +143,12 @@ function App() {
                   loggedIn={loggedIn}
                   setCurrentUser={setCurrentUser}
                 />
-              }>
+              }
+            >
               <Route index element={<Main />} />
 
               <Route
-                path="movies"
+                path='movies'
                 element={
                   <ProtectedRoute
                     element={Movies}
@@ -161,13 +163,13 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
                     originalCards={originalCards}
-                    isSavedMovies ={false}
+                    isSavedMovies={false}
                     setIsSavedMovies={setIsSavedMovies}
                   />
                 }
               />
               <Route
-                path="saved-movies"
+                path='saved-movies'
                 element={
                   <ProtectedRoute
                     element={SavedMovies}
@@ -181,13 +183,13 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
                     setShortFilms={setShortFilms}
-                    isSavedMovies ={true}
+                    isSavedMovies={true}
                     setIsSavedMovies={setIsSavedMovies}
                   />
                 }
               />
               <Route
-                path="profile"
+                path='profile'
                 element={
                   <ProtectedRoute
                     element={Profile}
@@ -196,15 +198,18 @@ function App() {
                     errorMessage={errorMessage}
                     showNotification={showNotification}
                     setShowNotification={setShowNotification}
+                    setLoggedIn={setLoggedIn}
                   />
                 }
               />
               <Route
-                path="signup"
-                element={<Register formValue={formValue} setEmail={setEmail} handleLogin={handleLogin} />}
+                path='signup'
+                element={
+                  <Register formValue={formValue} setEmail={setEmail} handleLogin={handleLogin} />
+                }
               />
               <Route
-                path="signin"
+                path='signin'
                 element={
                   <Login
                     setEmail={setEmail}
@@ -215,7 +220,7 @@ function App() {
                 }
               />
             </Route>
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </CurrentUserContext.Provider>

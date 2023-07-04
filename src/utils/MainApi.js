@@ -1,9 +1,8 @@
 const urlMovies = 'https://api.nomoreparties.co';
 
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
   }
 
   _checkResponse(res) {
@@ -20,7 +19,10 @@ class Api {
 
   getUserData() {
     return this._request(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     });
   }
@@ -28,7 +30,10 @@ class Api {
   editUserData(data) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
       body: JSON.stringify({
         name: data.name,
@@ -55,7 +60,10 @@ class Api {
 
     return this._request(`${this._baseUrl}/movies`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(movieData),
       credentials: 'include',
     });
@@ -64,7 +72,10 @@ class Api {
   getMovies(data) {
     return this._request(`${this._baseUrl}/movies`, {
       method: 'GET',
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(data),
       credentials: 'include',
     });
@@ -73,7 +84,10 @@ class Api {
   deleteMovie(movieId) {
     return this._request(`${this._baseUrl}/movies/${movieId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+      },
       credentials: 'include',
     });
   }
@@ -86,4 +100,3 @@ export const api = new Api({
     'Content-Type': 'application/json',
   },
 });
-

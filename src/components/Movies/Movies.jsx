@@ -17,9 +17,6 @@ function Movies({
   originalCards,
   isSavedMovies,
 }) {
-
-
-
   return (
     <main className='movies'>
       <SearchForm onSearch={handleSearch} shortFilms={shortFilms} setShortFilms={setShortFilms} />
