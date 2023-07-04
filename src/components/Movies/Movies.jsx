@@ -1,6 +1,7 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
+import { useEffect } from 'react';
 
 function Movies({
   savedCards,
@@ -14,7 +15,11 @@ function Movies({
   onCardDelete,
   onCardLike,
   originalCards,
+  isSavedMovies,
 }) {
+
+
+
   return (
     <main className='movies'>
       <SearchForm onSearch={handleSearch} shortFilms={shortFilms} setShortFilms={setShortFilms} />
@@ -35,6 +40,7 @@ function Movies({
           handleAddToSavedCards={handleAddToSavedCards}
           onCardDelete={onCardDelete}
           onCardLike={onCardLike}
+          isSavedMovies={isSavedMovies}
         />
       )}
     </main>

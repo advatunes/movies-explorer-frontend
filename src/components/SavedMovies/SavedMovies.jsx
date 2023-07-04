@@ -13,12 +13,16 @@ function SavedMovies({
   onCardDelete,
   onCardLike,
   setSavedCards,
+  isSavedMovies,
+  setIsSavedMovies
 }) {
-  const isSavedMovies = true;
+
+
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
 
   useEffect(() => {
+    setIsSavedMovies(true)
     api
       .getMovies()
       .then((data) => {

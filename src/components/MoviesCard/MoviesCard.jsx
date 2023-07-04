@@ -18,8 +18,11 @@ function MoviesCard({
   function handleDeleteClick() {
     return onCardDelete(card);
   }
+
   function handleLikeClick() {
-    return onCardLike(card);
+    isCardLiked
+      ? onCardDelete(savedCards.filter((savedCard) => savedCard.movieId === card.id)[0])
+      : onCardLike(card);
   }
 
   return (
@@ -40,7 +43,7 @@ function MoviesCard({
         onClick={() => {
           if (isSavedMovies) {
             handleDeleteClick();
-          } else if (!isCardLiked) {
+          } else {
             handleLikeClick();
           }
         }}

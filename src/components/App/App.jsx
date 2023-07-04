@@ -26,7 +26,7 @@ function App() {
     password: '',
   });
   const [email, setEmail] = useState(formValue.email);
-
+  const [isSavedMovies, setIsSavedMovies] = useState(false);
   const [cards, setCards] = useState([]);
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
@@ -99,6 +99,7 @@ function App() {
   localStorage.setItem('savedCards', JSON.stringify(savedCards));
 
   function handleDeleteCard(card) {
+   
     api
       .deleteMovie(card._id)
       .then(() => {
@@ -167,6 +168,8 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
                     originalCards={originalCards}
+                    isSavedMovies ={false}
+                    setIsSavedMovies={setIsSavedMovies}
                   />
                 }
               />
@@ -185,6 +188,8 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
                     setShortFilms={setShortFilms}
+                    isSavedMovies ={true}
+                    setIsSavedMovies={setIsSavedMovies}
                   />
                 }
               />

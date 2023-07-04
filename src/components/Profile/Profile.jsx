@@ -7,7 +7,7 @@ function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNoti
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isEditing, setIsEditing] = useState(false);
-  
+
 
   if (isEditing) {
     setShowNotification(false);
@@ -51,7 +51,7 @@ function Profile({ handleUpdateUser, errorMessage, showNotification, setShowNoti
           className='profile__form'
           name='profile'
           onSubmit={handleSubmit}
-          formValid={formValid}
+          isDisabled={!formValid}
           noValidate
         >
           <div className='profile__form-group'>
