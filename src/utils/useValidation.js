@@ -13,6 +13,7 @@ export default function useValidation() {
   function onChangeValue(e) {
     const { name, value } = e.target;
     const error = e.target.validationMessage;
+    
 
 
     if (name === 'email') {
@@ -21,13 +22,22 @@ export default function useValidation() {
         [name]: validator.isEmail(value) ? error : 'Некорректный адрес электронной почты',
       }));
       setFormValid(formValid && validator.isEmail(value));
+<<<<<<< HEAD
 
 
+=======
+      
+     
+>>>>>>> level-3
     } else {
       setError((errors) => ({ ...errors, [name]: error }));
       const formValid = e.target.form.checkValidity();
       setFormValid(formValid  );
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> level-3
     }
 
     setValues((values) => ({ ...values, [name]: value }));

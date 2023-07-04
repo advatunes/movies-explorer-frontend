@@ -30,18 +30,13 @@ function App() {
   const [cards, setCards] = useState([]);
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
-  const [savedCards, setSavedCards] = useState(
-    JSON.parse(localStorage.getItem('savedCards')) || []
-  );
+  const [savedCards, setSavedCards] = useState(JSON.parse(localStorage.getItem('savedCards')) || []);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [isError, setIsError] = useState(false);
   const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms') === 'true');
   const [showNotification, setShowNotification] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState('');
-
-
-
 
   const handleSearch = (searchValue) => {
     setIsLoadingPage(true);
@@ -131,14 +126,13 @@ function App() {
     setLoggedIn(true);
   };
 
-
   return (
-    <div className='root'>
+    <div className="root">
       <CurrentUserContext.Provider value={currentUser}>
         <BrowserRouter>
           <Routes>
             <Route
-              path='/'
+              path="/"
               element={
                 <Layout
                   setLoggedIn={setLoggedIn}
@@ -148,12 +142,11 @@ function App() {
                   loggedIn={loggedIn}
                   setCurrentUser={setCurrentUser}
                 />
-              }
-            >
+              }>
               <Route index element={<Main />} />
 
               <Route
-                path='movies'
+                path="movies"
                 element={
                   <ProtectedRoute
                     element={Movies}
@@ -174,7 +167,7 @@ function App() {
                 }
               />
               <Route
-                path='saved-movies'
+                path="saved-movies"
                 element={
                   <ProtectedRoute
                     element={SavedMovies}
@@ -194,7 +187,7 @@ function App() {
                 }
               />
               <Route
-                path='profile'
+                path="profile"
                 element={
                   <ProtectedRoute
                     element={Profile}
@@ -207,28 +200,22 @@ function App() {
                 }
               />
               <Route
-                path='signup'
-                element={
-                  <Register
-                    formValue={formValue}
-
-                  />
-                }
+                path="signup"
+                element={<Register formValue={formValue} setEmail={setEmail} handleLogin={handleLogin} />}
               />
               <Route
-                path='signin'
+                path="signin"
                 element={
                   <Login
                     setEmail={setEmail}
                     formValue={formValue}
                     setFormValue={setFormValue}
                     handleLogin={handleLogin}
-
                   />
                 }
               />
             </Route>
-            <Route path='*' element={<NotFoundPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </CurrentUserContext.Provider>

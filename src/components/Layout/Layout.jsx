@@ -34,6 +34,7 @@ function Layout({ setLoggedIn, setCurrentUser, loggedIn }) {
   }
 
   useEffect(() => {
+    console.log(loggedIn);
     if (loggedIn) {
       api
         .getUserData()
