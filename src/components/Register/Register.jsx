@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,useLocation  } from 'react-router-dom';
 import { register, login } from '../../utils/auth.js';
 
 import useValidation from '../../utils/useValidation';
 
-function Register({ setEmail, handleLogin }) {
+function Register({ setEmail, handleLogin, loggedIn }) {
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  if (loggedIn) {
+    navigate('/movies', { state: { location }, replace: true });
+  }
+
   useEffect(() => {
     resetValidation();
   }, []);
-
-  const navigate = useNavigate();
 
   function authorization() {
     login(values.email, values.password)

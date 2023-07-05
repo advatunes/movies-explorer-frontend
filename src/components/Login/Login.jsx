@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,useLocation  } from 'react-router-dom';
 import { login } from '../../utils/auth.js';
 import useValidation from '../../utils/useValidation';
 
-function Login({ setFormValue, setEmail, handleLogin }) {
+function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const [showNotification, setShowNotification] = useState(false);
+
+  if (loggedIn) {
+    navigate('/movies', { state: { location }, replace: true });
+  }
 
   useEffect(() => {
     resetValidation();
@@ -21,7 +26,8 @@ function Login({ setFormValue, setEmail, handleLogin }) {
           localStorage.setItem('jwt', data.token);
           setFormValue({ username: '', password: '' });
           handleLogin();
-          navigate('/movies', { replace: true });
+          navigate('/movies', { state: { location }, replace: true });
+
         } else {
           return;
         }

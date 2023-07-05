@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.advatunes.movies.nomoredomains.rocks';
+import {BASE_URL} from "../utils/constants"
 
 function checkResponse(res) {
   if (res.ok) {

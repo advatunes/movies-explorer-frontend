@@ -42,7 +42,7 @@ function Profile({
   function handleLogout() {
     setLoggedIn(false);
     localStorage.clear();
-    navigate('/signin');
+    navigate('/');
   }
 
   return (

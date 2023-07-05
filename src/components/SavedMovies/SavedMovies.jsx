@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 import Preloader from '../Preloader/Preloader';
 import { api } from '../../utils/MainApi';
 
+import { SHORT_FILM_DURATION } from '../../utils/constants';
+
+
+
 function SavedMovies({
   savedCards,
   isLoadingPage,
@@ -34,7 +38,7 @@ function SavedMovies({
 
   useEffect(() => {
     if (shortFilms) {
-      setSavedCards(savedCards.filter((card) => card.duration <= 40));
+      setSavedCards(savedCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
     } else {
       setSavedCards(filteredCards.length === 0 ? originalCards : filteredCards);
     }
@@ -48,7 +52,7 @@ function SavedMovies({
     );
 
     if (shortFilms) {
-      setSavedCards(filteredCards.filter((card) => card.duration <= 40));
+      setSavedCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
     } else setSavedCards(filteredCards);
   }
 

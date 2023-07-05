@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import photo from '../../images/photo.jpg';
 
 function AboutMe() {
@@ -14,9 +15,9 @@ function AboutMe() {
             развиваться в этой сфере. Проходил курсы по JS на Stepik. Решаю задачи на codewars.com В
             свободное время занимаюсь написанием электронной музыки
           </p>
-          <a className='about-me__link' href='https://github.com/advatunes' target='_blank'>
+          <Link className='about-me__link' to='https://github.com/advatunes' target='_blank'>
             Github
-          </a>
+          </Link>
         </div>
 
         <img className='about-me__image' src={photo} alt='my photo' />

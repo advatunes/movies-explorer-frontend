@@ -1,6 +1,15 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
-
 import { useEffect, useState } from 'react';
+
+import {
+  MOBILE_BREAKPOINT,
+  TABLET_BREAKPOINT,
+  CARDS_PER_MOBILE,
+  CARDS_PER_TABLET,
+  CARDS_PER_LOAD_DESKTOP,
+  CARDS_PER_LOAD_MOBILE,
+  MOVIE_API_URL,
+} from '../../utils/constants';
 
 function MoviesCardList({
   cards,
@@ -11,27 +20,31 @@ function MoviesCardList({
   onCardLike,
 }) {
   const [visibleCards, setVisibleCards] = useState(0);
-  const movieUrl = 'https://api.nomoreparties.co/';
-  
+
   useEffect(() => {
     const handleResize = () => {
       setTimeout(() => {
-        if (window.innerWidth >= 900) {
-          setVisibleCards(12);
-        } else if (window.innerWidth >= 568) {
-          setVisibleCards(8);
+        if (window.innerWidth >= TABLET_BREAKPOINT) {
+          setVisibleCards(CARDS_PER_LOAD_DESKTOP);
+        } else if (window.innerWidth >= MOBILE_BREAKPOINT) {
+          setVisibleCards(CARDS_PER_TABLET);
         } else {
-          setVisibleCards(5);
+          setVisibleCards(CARDS_PER_MOBILE);
         }
       }, 200);
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   function handleLoadMore() {
-    setVisibleCards(visibleCards + (window.innerWidth >= 900 ? 3 : 2));
+    const perLoad =
+      window.innerWidth >= TABLET_BREAKPOINT ? CARDS_PER_LOAD_DESKTOP : CARDS_PER_LOAD_MOBILE;
+    setVisibleCards(visibleCards + perLoad);
   }
 
   const displayedCards = isSavedMovies ? cards : cards.slice(0, visibleCards);
@@ -44,8 +57,8 @@ function MoviesCardList({
             key={isSavedMovies ? card._id : card.id}
             card={card}
             isLiked={card.isLiked}
-            link={isSavedMovies ? card.image : movieUrl + card.image.url}
-            image={movieUrl + card.image.url}
+            link={isSavedMovies ? card.image : MOVIE_API_URL + card.image.url}
+            image={MOVIE_API_URL + card.image.url}
             title={card.nameRU}
             duration={card.duration}
             trailerLink={card.trailerLink}

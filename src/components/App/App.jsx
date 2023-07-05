@@ -1,22 +1,19 @@
-import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-
+import { SHORT_FILM_DURATION } from '../../utils/constants';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
-
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
-import { api } from '../../utils/MainApi';
-import { moviesApi } from '../../utils/MoviesApi';
-
 import Layout from '../Layout/Layout';
-
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { api } from '../../utils/MainApi';
+import { moviesApi } from '../../utils/MoviesApi';
+import { checkToken } from '../../utils/auth.js';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -55,7 +52,7 @@ function App() {
             card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
         );
         if (shortFilms) {
-          setCards(filteredCards.filter((card) => card.duration <= 40));
+          setCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
         } else setCards(filteredCards);
 
         localStorage.setItem('savedCards', JSON.stringify(savedCards));
@@ -75,7 +72,7 @@ function App() {
 
     if (savedSearchMovies !== null) {
       if (shortFilms) {
-        setCards(savedSearchMovies.filter((card) => card.duration <= 40));
+        setCards(savedSearchMovies.filter((card) => card.duration <= SHORT_FILM_DURATION));
       } else {
         setCards(filteredCards.length === 0 ? savedSearchMovies : filteredCards);
       }
@@ -127,6 +124,36 @@ function App() {
     setLoggedIn(true);
   };
 
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      api
+        .getUserData()
+        .then((data) => {
+          if (data) {
+            setCurrentUser(data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
+
   return (
     <div className='root'>
       <CurrentUserContext.Provider value={currentUser}>
@@ -148,7 +175,7 @@ function App() {
               <Route index element={<Main />} />
 
               <Route
-                path='movies'
+                path='/movies'
                 element={
                   <ProtectedRoute
                     element={Movies}
@@ -169,7 +196,7 @@ function App() {
                 }
               />
               <Route
-                path='saved-movies'
+                path='/saved-movies'
                 element={
                   <ProtectedRoute
                     element={SavedMovies}
@@ -189,7 +216,7 @@ function App() {
                 }
               />
               <Route
-                path='profile'
+                path='/profile'
                 element={
                   <ProtectedRoute
                     element={Profile}
@@ -203,19 +230,25 @@ function App() {
                 }
               />
               <Route
-                path='signup'
+                path='/signup'
                 element={
-                  <Register formValue={formValue} setEmail={setEmail} handleLogin={handleLogin} />
+                  <Register
+
+                    setEmail={setEmail}
+                    handleLogin={handleLogin}
+                    loggedIn={loggedIn}
+                  />
                 }
               />
               <Route
-                path='signin'
+                path='/signin'
                 element={
                   <Login
                     setEmail={setEmail}
-                    formValue={formValue}
+
                     setFormValue={setFormValue}
                     handleLogin={handleLogin}
+                    loggedIn={loggedIn}
                   />
                 }
               />

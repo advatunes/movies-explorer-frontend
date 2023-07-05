@@ -97,6 +97,17 @@ input:checked + .search-form__slider:before {
   margin-left: 50px;
 }
 
+.search-form__error-message {
+  position: absolute;
+  width: 200px;
+  margin: 0;
+  font-size: 12px;
+  height: 20px;
+  top: 30px;
+  left: -8px;
+  color: #ee3465;
+}
+
 @media screen and (max-width: 568px) {
   .search-form {
     margin-top: 75px;

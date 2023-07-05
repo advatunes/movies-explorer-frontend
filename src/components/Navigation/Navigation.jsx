@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 function Navigation() {
   const location = useLocation();
@@ -12,20 +12,30 @@ function Navigation() {
   return (
     <nav className='navigation'>
       <div className={`overlay ${isMenuOpen ? 'overlay_visible' : ''}`}></div>
-      <Link to='/' className='navigation__logo' href='#'></Link>
+      <NavLink to='/' className='navigation__logo' href='#'></NavLink>
       <div className='navigation__films'>
-        <Link to='/movies' href='#' className='navigation__link'>
+        <NavLink
+          to='/movies'
+          className={({ isActive }) =>
+            isActive ? 'navigation__link ' : 'navigation__link navigation__link_fw400'
+          }
+        >
           Фильмы
-        </Link>
-        <Link to='/saved-movies' className='navigation__link navigation__link_fw400  '>
+        </NavLink>
+        <NavLink
+          to='/saved-movies'
+          className={({ isActive }) =>
+            isActive ? 'navigation__link ' : 'navigation__link navigation__link_fw400'
+          }
+        >
           Сохранённые фильмы
-        </Link>
+        </NavLink>
       </div>
       <div className='navigation__account'>
-        <Link to='/profile' className='navigation__link navigation__link-account'>
+        <NavLink to='/profile' className='navigation__link navigation__link-account'>
           Аккаунт
-        </Link>
-        <Link to='/profile' className='navigation__link navigation__link-icon'></Link>
+        </NavLink>
+        <NavLink to='/profile' className='navigation__link navigation__link-icon'></NavLink>
         <button
           className='navigation__link navigation__link-burger'
           onClick={handleBurgerClick}
@@ -37,37 +47,41 @@ function Navigation() {
 
         <div className='burger-menu__content'>
           <nav className='burger-menu__links'>
-            <Link to='/' className='burger-menu__link' onClick={handleBurgerClick}>
+            <NavLink to='/' className='burger-menu__link' onClick={handleBurgerClick}>
               Главная
-            </Link>
+            </NavLink>
 
-            <Link
+            <NavLink
               to='/movies'
-              className={`burger-menu__link ${
-                location.pathname === '/movies' ? 'navigation__link_underline' : ''
-              }`}
+              className={({ isActive }) =>
+                isActive ? 'burger-menu__link navigation__link_underline' : 'burger-menu__link '
+              }
               onClick={handleBurgerClick}
             >
               Фильмы
-            </Link>
-            <Link to='/saved-movies'   className={`burger-menu__link ${
-                location.pathname === '/saved-movies' ? 'navigation__link_underline' : ''
-              }`} onClick={handleBurgerClick}>
+            </NavLink>
+            <NavLink
+              to='/saved-movies'
+              className={({ isActive }) =>
+                isActive ? 'burger-menu__link navigation__link_underline' : 'burger-menu__link '
+              }
+              onClick={handleBurgerClick}
+            >
               Сохранённые фильмы
-            </Link>
+            </NavLink>
           </nav>
           <div className='navigation__account navigation__account_burger'>
-            <Link
+            <NavLink
               to='/profile'
               className='navigation__link navigation__link-account navigation__link-account_burger'
               onClick={handleBurgerClick}
             >
               Аккаунт
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to='/profile'
               className='navigation__link navigation__link-icon navigation__link-icon_burger'
-            ></Link>
+            ></NavLink>
           </div>
         </div>
       </div>

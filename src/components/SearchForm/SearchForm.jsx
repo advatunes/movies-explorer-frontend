@@ -6,6 +6,7 @@ function SearchForm({ onSearch, setShortFilms }) {
   const [isChecked, setIsChecked] = useState(
     localStorage.getItem('shortFilms') === 'true' || false
   );
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     localStorage.setItem('searchValue', searchValue);
@@ -15,8 +16,11 @@ function SearchForm({ onSearch, setShortFilms }) {
   function handleSubmit(e) {
     e.preventDefault();
     localStorage.setItem('searchValue', searchValue);
-    if (searchValue !== '') {
+    if (searchValue.trim() !== '') {
+      setErrorMessage('');
       onSearch(searchValue);
+    } else {
+      setErrorMessage('Нужно ввести ключевое слово');
     }
   }
 
@@ -47,16 +51,22 @@ function SearchForm({ onSearch, setShortFilms }) {
         </button>
       </form>
 
+
+
       <label className='search-form__switch'>
+
         <input
           className='search-form__checkbox'
           type='checkbox'
           checked={isChecked}
           onChange={shortFilmsHandler}
         />
+
         <span className='search-form__slider'></span>
         <span className='search-form__text'>Короткометражки</span>
+        {errorMessage && <p className='search-form__error-message'>{errorMessage}</p>}
       </label>
+
     </section>
   );
 }
