@@ -25,7 +25,7 @@ function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
           setEmail(values.email);
           localStorage.setItem('jwt', data.token);
           setFormValue({ username: '', password: '' });
-          handleLogin();
+
           navigate('/movies', { state: { location }, replace: true });
 
         } else {
@@ -67,7 +67,7 @@ function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
               type='email'
               placeholder='Введите ваш email'
               name='email'
-              value={values.email}
+              value={values.email|| ''}
               onChange={onChangeValue}
               disabled={isSubmitting}
               required
@@ -82,7 +82,7 @@ function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
               name='password'
               placeholder='Введите ваш пароль'
               onChange={onChangeValue}
-              value={values.password}
+              value={values.password || ''}
               minLength='8'
               disabled={isSubmitting}
               required

@@ -26,6 +26,7 @@
 
 .login__form-group {
   padding-top: 5px;
+  position: relative;
 }
 
 .login__label {
@@ -109,6 +110,9 @@
 }
 
 .notification {
+  position: absolute;
+  left: 0;
+  right: 0;
   margin: 0;
   text-align: center;
   color: #EE3465;

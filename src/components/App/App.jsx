@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import React, { useEffect, useState,useCallback  } from 'react';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { SHORT_FILM_DURATION } from '../../utils/constants';
 import Main from '../Main/Main';
@@ -15,9 +15,10 @@ import { api } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi';
 import { checkToken } from '../../utils/auth.js';
 
+
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [formValue, setFormValue] = useState({
     email: '',
     password: '',
@@ -103,6 +104,11 @@ function App() {
       });
   }
 
+  function handleLogout() {
+    setLoggedIn(false);
+    localStorage.clear();
+  }
+
   function handleUpdateUser(data) {
     setErrorMessage('');
     api
@@ -124,35 +130,32 @@ function App() {
     setLoggedIn(true);
   };
 
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, []);
+const validateToken= useCallback(() => {
+  const jwt = localStorage.getItem('jwt');
+  if (jwt) {
+
+    checkToken(jwt)
+      .then((res) => {
+        setCurrentUser(res)
+        if (res) {
+          setLoggedIn(true);
+
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        handleLogout();
+      });
+  } else {
+    handleLogout();
+  }
+}, []);
 
   useEffect(() => {
-    if (loggedIn) {
-      api
-        .getUserData()
-        .then((data) => {
-          if (data) {
-            setCurrentUser(data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [loggedIn]);
+    validateToken();
+  }, [validateToken]);
+
+
 
   return (
     <div className='root'>
@@ -226,6 +229,7 @@ function App() {
                     showNotification={showNotification}
                     setShowNotification={setShowNotification}
                     setLoggedIn={setLoggedIn}
+                    onLogoutClick={handleLogout}
                   />
                 }
               />

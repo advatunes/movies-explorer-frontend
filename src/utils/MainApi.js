@@ -17,16 +17,6 @@ class Api {
     return fetch(url, options).then(this._checkResponse);
   }
 
-  getUserData() {
-    return this._request(`${this._baseUrl}/users/me`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-  }
-
   editUserData(data) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',

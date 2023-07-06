@@ -9,6 +9,7 @@ function Profile({
   showNotification,
   setShowNotification,
   setLoggedIn,
+  onLogoutClick
 }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
@@ -39,10 +40,8 @@ function Profile({
     setIsEditing(true);
   }
 
-  function handleLogout() {
-    setLoggedIn(false);
-    localStorage.clear();
-    navigate('/');
+  function handleLogoutClick() {
+    onLogoutClick()
   }
 
   return (
@@ -104,7 +103,7 @@ function Profile({
                   className='profile__button profile__button-logout'
                   type='button'
                   aria-label='Выйти из аккаунта'
-                  onClick={handleLogout}
+                  onClick={handleLogoutClick}
                 >
                   Выйти из аккаунта
                 </button>

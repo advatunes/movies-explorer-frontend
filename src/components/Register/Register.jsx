@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate,useLocation  } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { register, login } from '../../utils/auth.js';
 
 import useValidation from '../../utils/useValidation';
