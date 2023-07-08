@@ -4,7 +4,6 @@ import Preloader from '../Preloader/Preloader';
 
 function Movies({
   savedCards,
-  handleAddToSavedCards,
   cards,
   handleSearch,
   setSearchValue,
@@ -12,16 +11,13 @@ function Movies({
   isLoadingPage,
   isError,
   onShortFilms,
-  setShortFilms,
   onCardDelete,
   onCardLike,
   originalCards,
   isSavedMovies,
   shortFilms,
-  setCards
+  setCards,
 }) {
-
-
   return (
     <main className='movies'>
       <SearchForm
@@ -30,7 +26,6 @@ function Movies({
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         onShortFilms={onShortFilms}
-        setShortFilms={setShortFilms}
       />
 
       {isLoadingPage ? (
@@ -48,7 +43,6 @@ function Movies({
           setCards={setCards}
           savedCards={savedCards}
           shortFilms={shortFilms}
-          handleAddToSavedCards={handleAddToSavedCards}
           onCardDelete={onCardDelete}
           onCardLike={onCardLike}
           isSavedMovies={isSavedMovies}

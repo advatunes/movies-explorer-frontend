@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate,useLocation  } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../utils/auth.js';
 import useValidation from '../../utils/useValidation';
 
-function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
+function Login({ setEmail, loggedIn, validateToken }) {
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -24,10 +24,8 @@ function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
         if (data.token) {
           setEmail(values.email);
           localStorage.setItem('jwt', data.token);
-          setFormValue({ username: '', password: '' });
-
+          validateToken();
           navigate('/movies', { state: { location }, replace: true });
-
         } else {
           return;
         }
@@ -67,7 +65,7 @@ function Login({ setFormValue, setEmail, handleLogin,loggedIn }) {
               type='email'
               placeholder='Введите ваш email'
               name='email'
-              value={values.email|| ''}
+              value={values.email || ''}
               onChange={onChangeValue}
               disabled={isSubmitting}
               required

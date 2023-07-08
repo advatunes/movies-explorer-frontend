@@ -8,7 +8,6 @@ function MoviesCard({
   duration,
   trailerLink,
   savedCards,
-  isLiked,
   isSavedMovies,
   onCardDelete,
   onCardLike,

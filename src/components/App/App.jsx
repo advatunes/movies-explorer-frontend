@@ -26,7 +26,9 @@ function App() {
   const [isSavedMovies, setIsSavedMovies] = useState(false);
   const [cards, setCards] = useState(JSON.parse(localStorage.getItem('movies') || '[]'));
   const [originalCards, setOriginalCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState(
+    JSON.parse(localStorage.getItem('movies') || '[]')
+  );
   const [savedCards, setSavedCards] = useState(
     JSON.parse(localStorage.getItem('savedCards')) || []
   );
@@ -34,16 +36,11 @@ function App() {
   const [isError, setIsError] = useState(false);
   const [shortFilms, setShortFilms] = useState(localStorage.getItem('shortFilms') === 'true');
   const [showNotification, setShowNotification] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState('');
-
   const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') || '');
-  // const [isChecked, setIsChecked] = useState(
-  //   localStorage.getItem('shortFilms') === 'true' || false
-  // );
-
   const [isInitialSearch, setIsInitialSearch] = useState(true);
 
+  // поиск и фильтрация Фильмы
   useEffect(() => {
     localStorage.setItem('savedCards', JSON.stringify(savedCards));
     localStorage.setItem('shortFilms', shortFilms);
@@ -54,7 +51,7 @@ function App() {
     }
   }, [savedCards, shortFilms, filteredCards]);
 
-  const handleSearch = (searchValue) => {
+  function handleSearch(searchValue) {
     setIsLoadingPage(true);
     setIsError(false);
     localStorage.setItem('searchValue', searchValue);
@@ -64,9 +61,8 @@ function App() {
         .then((cards) => {
           const filteredCards = cards.filter(
             (card) =>
-              (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
-                card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
-              card.duration <= SHORT_FILM_DURATION
+              card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
+              card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
           );
           setCards(filteredCards);
           setFilteredCards(filteredCards);
@@ -93,24 +89,13 @@ function App() {
       setFilteredCards(filteredCards);
       localStorage.setItem('movies', JSON.stringify(filteredCards));
     }
-  };
+  }
 
   function shortFilmsHandler() {
     setShortFilms((prevShortFilms) => !prevShortFilms);
   }
 
-  // useEffect(() => {
-  //   const savedSearchMovies = JSON.parse(localStorage.getItem('movies'));
-
-  //   if (savedSearchMovies !== null) {
-  //     if (shortFilms) {
-  //       setCards(savedSearchMovies.filter((card) => card.duration <= SHORT_FILM_DURATION));
-  //     } else {
-  //       setCards(filteredCards.length === 0 ? savedSearchMovies : filteredCards);
-  //     }
-  //   }
-  // }, [shortFilms]);
-
+  // Добавление фильма в сохраненные
   function handleCardLike(card) {
     api
       .saveMovie(card)
@@ -122,6 +107,7 @@ function App() {
       });
   }
 
+  // Удаление фильма из сохраненных
   function handleDeleteCard(card) {
     api
       .deleteMovie(card._id)
@@ -133,11 +119,13 @@ function App() {
       });
   }
 
+  // Выход из профиля
   function handleLogout() {
     setLoggedIn(false);
     localStorage.clear();
   }
 
+  // Редактирование профиля
   function handleUpdateUser(data) {
     setErrorMessage('');
     api
@@ -159,6 +147,7 @@ function App() {
     setLoggedIn(true);
   };
 
+  // Проверка токена
   const validateToken = useCallback(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -241,6 +230,7 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}
                     setShortFilms={setShortFilms}
+                    onShortFilms={shortFilmsHandler}
                     isSavedMovies={true}
                     setIsSavedMovies={setIsSavedMovies}
                   />
@@ -264,7 +254,12 @@ function App() {
               <Route
                 path='/signup'
                 element={
-                  <Register setEmail={setEmail} handleLogin={handleLogin} loggedIn={loggedIn} />
+                  <Register
+                    setEmail={setEmail}
+                    handleLogin={handleLogin}
+                    loggedIn={loggedIn}
+                    validateToken={validateToken}
+                  />
                 }
               />
               <Route
@@ -275,6 +270,7 @@ function App() {
                     setFormValue={setFormValue}
                     handleLogin={handleLogin}
                     loggedIn={loggedIn}
+                    validateToken={validateToken}
                   />
                 }
               />

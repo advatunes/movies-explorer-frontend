@@ -4,7 +4,7 @@ import { register, login } from '../../utils/auth.js';
 
 import useValidation from '../../utils/useValidation';
 
-function Register({ setEmail, handleLogin, loggedIn }) {
+function Register({ setEmail, handleLogin, loggedIn, validateToken }) {
   const { values, setValues, error, onChangeValue, resetValidation, formValid } = useValidation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
@@ -27,6 +27,7 @@ function Register({ setEmail, handleLogin, loggedIn }) {
           setEmail(values.email);
           localStorage.setItem('jwt', data.token);
           handleLogin();
+          validateToken()
           navigate('/movies', { replace: true });
         } else {
           return;

@@ -1,14 +1,7 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-function SearchForm({
-  onSearch,
-  setShortFilms,
-  searchValue,
-  setSearchValue,
-  onShortFilms,
-  shortFilms,
-}) {
+function SearchForm({ onSearch, searchValue, setSearchValue, onShortFilms, shortFilms }) {
   const [errorMessage, setErrorMessage] = useState('');
 
   function handleSubmit(e) {

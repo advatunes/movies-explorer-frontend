@@ -6,8 +6,6 @@ import { api } from '../../utils/MainApi';
 
 import { SHORT_FILM_DURATION } from '../../utils/constants';
 
-
-
 function SavedMovies({
   savedCards,
   isLoadingPage,
@@ -18,18 +16,21 @@ function SavedMovies({
   onCardLike,
   setSavedCards,
   isSavedMovies,
-  setIsSavedMovies,
+  onShortFilms,
 }) {
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
 
+  const [searchValueSavedMovies, setSearchValueSavedMovies] = useState(
+    localStorage.getItem('searchValueSavedMovies') || ''
+  );
+
   useEffect(() => {
-    setIsSavedMovies(true);
     api
       .getMovies()
-      .then((data) => {
-        setSavedCards(data);
-        setOriginalCards(data);
+      .then((cards) => {
+        setSavedCards(cards);
+        setOriginalCards(cards);
       })
       .catch((err) => {
         console.log(err);
@@ -37,28 +38,40 @@ function SavedMovies({
   }, []);
 
   useEffect(() => {
-    if (shortFilms) {
-      setSavedCards(savedCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
+    if (filteredCards.length !== 0 && shortFilms) {
+      setSavedCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
+    } else if (filteredCards.length !== 0) {
+      setSavedCards(filteredCards);
     } else {
-      setSavedCards(filteredCards.length === 0 ? originalCards : filteredCards);
+      if (savedCards.length !== 0 && shortFilms) {
+        setSavedCards(savedCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
+      } else if (savedCards.length !== 0) {
+        setSavedCards(originalCards);
+      }
     }
-  }, [shortFilms]);
+  }, [originalCards, shortFilms, filteredCards, setSavedCards]);
 
   function handleSearchSavedMovies(searchValue) {
+    localStorage.setItem('searchValueSavedMovies', searchValue);
     const filteredCards = originalCards.filter(
       (card) =>
         card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
         card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
     );
-
-    if (shortFilms) {
-      setSavedCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
-    } else setSavedCards(filteredCards);
+    setSavedCards(filteredCards);
+    setFilteredCards(filteredCards);
   }
 
   return (
     <main className='movies'>
-      <SearchForm onSearch={handleSearchSavedMovies} setShortFilms={setShortFilms} />
+      <SearchForm
+        onSearch={handleSearchSavedMovies}
+        shortFilms={shortFilms}
+        setShortFilms={setShortFilms}
+        searchValue={searchValueSavedMovies}
+        setSearchValue={setSearchValueSavedMovies}
+        onShortFilms={onShortFilms}
+      />
 
       {isLoadingPage ? (
         <Preloader />
@@ -76,7 +89,6 @@ function SavedMovies({
           isSavedMovies={isSavedMovies}
           onCardDelete={onCardDelete}
           onCardLike={onCardLike}
-          shortFilms={shortFilms}
         />
       )}
     </main>

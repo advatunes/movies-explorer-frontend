@@ -1,17 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { api } from '../../utils/MainApi';
+import React from 'react';
+
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-
-
-function Layout({ setLoggedIn, setCurrentUser, loggedIn }) {
-  const navigate = useNavigate();
-
-
-
+function Layout({ loggedIn }) {
   return (
     <>
       <Header loggedIn={loggedIn} />
