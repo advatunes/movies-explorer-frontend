@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import useValidation from '../../utils/useValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { useNavigate } from 'react-router-dom';
+
 
 function Profile({
   handleUpdateUser,
   errorMessage,
   showNotification,
   setShowNotification,
-  setLoggedIn,
+
   onLogoutClick
 }) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -19,7 +19,7 @@ function Profile({
     setShowNotification(false);
   }
 
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     setValues(currentUser);

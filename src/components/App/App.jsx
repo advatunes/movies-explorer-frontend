@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useCallback  } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { SHORT_FILM_DURATION } from '../../utils/constants';
@@ -15,7 +15,6 @@ import { api } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi';
 import { checkToken } from '../../utils/auth.js';
 
-
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(true);
@@ -25,7 +24,7 @@ function App() {
   });
   const [email, setEmail] = useState(formValue.email);
   const [isSavedMovies, setIsSavedMovies] = useState(false);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(JSON.parse(localStorage.getItem('movies') || '[]'));
   const [originalCards, setOriginalCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [savedCards, setSavedCards] = useState(
@@ -38,47 +37,79 @@ function App() {
 
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') || '');
+  // const [isChecked, setIsChecked] = useState(
+  //   localStorage.getItem('shortFilms') === 'true' || false
+  // );
+
+  const [isInitialSearch, setIsInitialSearch] = useState(true);
+
+  useEffect(() => {
+    localStorage.setItem('savedCards', JSON.stringify(savedCards));
+    localStorage.setItem('shortFilms', shortFilms);
+    if (filteredCards.length !== 0 && shortFilms) {
+      setCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
+    } else if (filteredCards.length !== 0) {
+      setCards(filteredCards);
+    }
+  }, [savedCards, shortFilms, filteredCards]);
+
   const handleSearch = (searchValue) => {
     setIsLoadingPage(true);
     setIsError(false);
+    localStorage.setItem('searchValue', searchValue);
+    if (isInitialSearch) {
+      moviesApi
+        .getInitialCards()
+        .then((cards) => {
+          const filteredCards = cards.filter(
+            (card) =>
+              (card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
+                card.nameEN.toLowerCase().includes(searchValue.toLowerCase())) &&
+              card.duration <= SHORT_FILM_DURATION
+          );
+          setCards(filteredCards);
+          setFilteredCards(filteredCards);
+          setOriginalCards(cards);
+          localStorage.setItem('movies', JSON.stringify(filteredCards));
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsError(true);
+        })
+        .finally(() => {
+          setIsLoadingPage(false);
+          setIsInitialSearch(false);
+        });
+    } else {
+      setIsLoadingPage(false);
 
-    Promise.all([moviesApi.getInitialCards(), api.getMovies()])
-      .then(async ([initialCards, savedCards]) => {
-        setOriginalCards(initialCards);
-        setSavedCards(savedCards);
-
-        const filteredCards = await initialCards.filter(
-          (card) =>
-            card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
-            card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
-        );
-        if (shortFilms) {
-          setCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
-        } else setCards(filteredCards);
-
-        localStorage.setItem('savedCards', JSON.stringify(savedCards));
-        localStorage.setItem('movies', JSON.stringify(filteredCards));
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsError(true);
-      })
-      .finally(() => {
-        setIsLoadingPage(false);
-      });
+      const filteredCards = originalCards.filter(
+        (card) =>
+          card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
+          card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setCards(filteredCards);
+      setFilteredCards(filteredCards);
+      localStorage.setItem('movies', JSON.stringify(filteredCards));
+    }
   };
 
-  useEffect(() => {
-    const savedSearchMovies = JSON.parse(localStorage.getItem('movies'));
+  function shortFilmsHandler() {
+    setShortFilms((prevShortFilms) => !prevShortFilms);
+  }
 
-    if (savedSearchMovies !== null) {
-      if (shortFilms) {
-        setCards(savedSearchMovies.filter((card) => card.duration <= SHORT_FILM_DURATION));
-      } else {
-        setCards(filteredCards.length === 0 ? savedSearchMovies : filteredCards);
-      }
-    }
-  }, [shortFilms]);
+  // useEffect(() => {
+  //   const savedSearchMovies = JSON.parse(localStorage.getItem('movies'));
+
+  //   if (savedSearchMovies !== null) {
+  //     if (shortFilms) {
+  //       setCards(savedSearchMovies.filter((card) => card.duration <= SHORT_FILM_DURATION));
+  //     } else {
+  //       setCards(filteredCards.length === 0 ? savedSearchMovies : filteredCards);
+  //     }
+  //   }
+  // }, [shortFilms]);
 
   function handleCardLike(card) {
     api
@@ -90,8 +121,6 @@ function App() {
         console.log(err);
       });
   }
-
-  localStorage.setItem('savedCards', JSON.stringify(savedCards));
 
   function handleDeleteCard(card) {
     api
@@ -130,32 +159,28 @@ function App() {
     setLoggedIn(true);
   };
 
-const validateToken= useCallback(() => {
-  const jwt = localStorage.getItem('jwt');
-  if (jwt) {
-
-    checkToken(jwt)
-      .then((res) => {
-        setCurrentUser(res)
-        if (res) {
-          setLoggedIn(true);
-
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        handleLogout();
-      });
-  } else {
-    handleLogout();
-  }
-}, []);
+  const validateToken = useCallback(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      checkToken(jwt)
+        .then((res) => {
+          setCurrentUser(res);
+          if (res) {
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          handleLogout();
+        });
+    } else {
+      handleLogout();
+    }
+  }, []);
 
   useEffect(() => {
     validateToken();
   }, [validateToken]);
-
-
 
   return (
     <div className='root'>
@@ -184,7 +209,10 @@ const validateToken= useCallback(() => {
                     element={Movies}
                     loggedIn={loggedIn}
                     savedCards={savedCards}
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
                     handleSearch={handleSearch}
+                    onShortFilms={shortFilmsHandler}
                     cards={cards}
                     isLoadingPage={isLoadingPage}
                     isError={isError}
@@ -236,12 +264,7 @@ const validateToken= useCallback(() => {
               <Route
                 path='/signup'
                 element={
-                  <Register
-
-                    setEmail={setEmail}
-                    handleLogin={handleLogin}
-                    loggedIn={loggedIn}
-                  />
+                  <Register setEmail={setEmail} handleLogin={handleLogin} loggedIn={loggedIn} />
                 }
               />
               <Route
@@ -249,7 +272,6 @@ const validateToken= useCallback(() => {
                 element={
                   <Login
                     setEmail={setEmail}
-
                     setFormValue={setFormValue}
                     handleLogin={handleLogin}
                     loggedIn={loggedIn}

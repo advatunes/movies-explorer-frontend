@@ -7,18 +7,31 @@ function Movies({
   handleAddToSavedCards,
   cards,
   handleSearch,
+  setSearchValue,
+  searchValue,
   isLoadingPage,
   isError,
-  shortFilms,
+  onShortFilms,
   setShortFilms,
   onCardDelete,
   onCardLike,
   originalCards,
   isSavedMovies,
+  shortFilms,
+  setCards
 }) {
+
+
   return (
     <main className='movies'>
-      <SearchForm onSearch={handleSearch} shortFilms={shortFilms} setShortFilms={setShortFilms} />
+      <SearchForm
+        shortFilms={shortFilms}
+        onSearch={handleSearch}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        onShortFilms={onShortFilms}
+        setShortFilms={setShortFilms}
+      />
 
       {isLoadingPage ? (
         <Preloader />
@@ -32,7 +45,9 @@ function Movies({
       ) : (
         <MoviesCardList
           cards={cards}
+          setCards={setCards}
           savedCards={savedCards}
+          shortFilms={shortFilms}
           handleAddToSavedCards={handleAddToSavedCards}
           onCardDelete={onCardDelete}
           onCardLike={onCardLike}

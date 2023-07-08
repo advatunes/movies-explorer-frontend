@@ -9,17 +9,23 @@ import {
   CARDS_PER_LOAD_DESKTOP,
   CARDS_PER_LOAD_MOBILE,
   MOVIE_API_URL,
+  SHORT_FILM_DURATION
 } from '../../utils/constants';
 
 function MoviesCardList({
   cards,
+  
   savedCards,
   handleAddToSavedCards,
   isSavedMovies,
   onCardDelete,
   onCardLike,
+  shortFilms
+
 }) {
   const [visibleCards, setVisibleCards] = useState(0);
+
+
 
   useEffect(() => {
     const handleResize = () => {

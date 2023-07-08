@@ -1,21 +1,19 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-function SearchForm({ onSearch, setShortFilms }) {
-  const [searchValue, setSearchValue] = useState(localStorage.getItem('searchValue') || '');
-  const [isChecked, setIsChecked] = useState(
-    localStorage.getItem('shortFilms') === 'true' || false
-  );
+function SearchForm({
+  onSearch,
+  setShortFilms,
+  searchValue,
+  setSearchValue,
+  onShortFilms,
+  shortFilms,
+}) {
   const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('searchValue', searchValue);
-    localStorage.setItem('shortFilms', isChecked);
-  }, [searchValue, isChecked]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    localStorage.setItem('searchValue', searchValue);
+
     if (searchValue.trim() !== '') {
       setErrorMessage('');
       onSearch(searchValue);
@@ -29,9 +27,7 @@ function SearchForm({ onSearch, setShortFilms }) {
   }
 
   function shortFilmsHandler() {
-    setIsChecked((prevChecked) => !prevChecked);
-    localStorage.setItem('shortFilms', isChecked);
-    setShortFilms((prevShortFilms) => !prevShortFilms);
+    onShortFilms();
   }
 
   return (
@@ -51,14 +47,11 @@ function SearchForm({ onSearch, setShortFilms }) {
         </button>
       </form>
 
-
-
       <label className='search-form__switch'>
-
         <input
           className='search-form__checkbox'
           type='checkbox'
-          checked={isChecked}
+          checked={shortFilms}
           onChange={shortFilmsHandler}
         />
 
@@ -66,7 +59,6 @@ function SearchForm({ onSearch, setShortFilms }) {
         <span className='search-form__text'>Короткометражки</span>
         {errorMessage && <p className='search-form__error-message'>{errorMessage}</p>}
       </label>
-
     </section>
   );
 }
