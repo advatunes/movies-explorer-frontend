@@ -24,11 +24,13 @@ function App() {
   });
   const [email, setEmail] = useState(formValue.email);
   const [isSavedMovies, setIsSavedMovies] = useState(false);
-  const [cards, setCards] = useState(JSON.parse(localStorage.getItem('movies') || '[]'));
+  const storedMovies = localStorage.getItem('movies');
+  
+  const parsedMovies = storedMovies ? JSON.parse(storedMovies) : [];
+  const [cards, setCards] = useState(parsedMovies);
+  const [filteredCards, setFilteredCards] = useState(parsedMovies);
   const [originalCards, setOriginalCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState(
-    JSON.parse(localStorage.getItem('movies') || '[]')
-  );
+  const [filteredCardsSV, setFilteredCardsSV] = useState([]);
   const [savedCards, setSavedCards] = useState(
     JSON.parse(localStorage.getItem('savedCards')) || []
   );
@@ -113,6 +115,9 @@ function App() {
       .deleteMovie(card._id)
       .then(() => {
         setSavedCards(savedCards.filter((c) => c._id !== card._id));
+        if (filteredCardsSV.length !== 0) {
+          setFilteredCardsSV(filteredCardsSV.filter((c) => c._id !== card._id));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -225,7 +230,8 @@ function App() {
                     setSavedCards={setSavedCards}
                     isLoadingPage={isLoadingPage}
                     isError={isError}
-                    setCards={setCards}
+                    filteredCardsSV={filteredCardsSV}
+                    setFilteredCardsSV={setFilteredCardsSV}
                     shortFilms={shortFilms}
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeleteCard}

@@ -10,27 +10,26 @@ function SavedMovies({
   savedCards,
   isLoadingPage,
   isError,
-  shortFilms,
   setShortFilms,
   onCardDelete,
   onCardLike,
+  filteredCardsSV,
+  setFilteredCardsSV,
   setSavedCards,
   isSavedMovies,
-  onShortFilms,
 }) {
-  const [originalCards, setOriginalCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
-
-  const [searchValueSavedMovies, setSearchValueSavedMovies] = useState(
-    localStorage.getItem('searchValueSavedMovies') || ''
+  const [cards, setCards] = useState(JSON.parse(localStorage.getItem('savedCards')) || []);
+  const [shortFilmsSavedMovies, setShortFilmsSavedMovies] = useState(
+    localStorage.getItem('shortFilmsSavedMovies') === 'true'
   );
+  const [searchValueSavedMovies, setSearchValueSavedMovies] = useState('');
 
   useEffect(() => {
     api
       .getMovies()
       .then((cards) => {
         setSavedCards(cards);
-        setOriginalCards(cards);
+        setCards(cards);
       })
       .catch((err) => {
         console.log(err);
@@ -38,39 +37,49 @@ function SavedMovies({
   }, []);
 
   useEffect(() => {
-    if (filteredCards.length !== 0 && shortFilms) {
-      setSavedCards(filteredCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
-    } else if (filteredCards.length !== 0) {
-      setSavedCards(filteredCards);
+    localStorage.setItem('shortFilmsSavedMovies', shortFilmsSavedMovies);
+
+    if (filteredCardsSV.length !== 0 && shortFilmsSavedMovies) {
+      setCards(filteredCardsSV.filter((card) => card.duration <= SHORT_FILM_DURATION));
+    } else if (filteredCardsSV.length !== 0) {
+      setCards(filteredCardsSV);
+    } else if (
+      filteredCardsSV.length === 0 &&
+      shortFilmsSavedMovies &&
+      searchValueSavedMovies === ''
+    ) {
+      setCards(savedCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
+    } else if (filteredCardsSV.length === 0 && searchValueSavedMovies === '') {
+      setCards(savedCards);
     } else {
-      if (savedCards.length !== 0 && shortFilms) {
-        setSavedCards(savedCards.filter((card) => card.duration <= SHORT_FILM_DURATION));
-      } else if (savedCards.length !== 0) {
-        setSavedCards(originalCards);
-      }
+      setCards([]);
     }
-  }, [originalCards, shortFilms, filteredCards, setSavedCards]);
+  }, [savedCards, shortFilmsSavedMovies, filteredCardsSV, setCards, searchValueSavedMovies]);
 
   function handleSearchSavedMovies(searchValue) {
-    localStorage.setItem('searchValueSavedMovies', searchValue);
-    const filteredCards = originalCards.filter(
+    const filteredCards = savedCards.filter(
       (card) =>
         card.nameRU.toLowerCase().includes(searchValue.toLowerCase()) ||
         card.nameEN.toLowerCase().includes(searchValue.toLowerCase())
     );
-    setSavedCards(filteredCards);
-    setFilteredCards(filteredCards);
+    setFilteredCardsSV(filteredCards);
+    setCards(filteredCards);
   }
+
+  function shortFilmsHandler() {
+    setShortFilmsSavedMovies((shortFilmsSavedMovies) => !shortFilmsSavedMovies);
+  }
+
 
   return (
     <main className='movies'>
       <SearchForm
         onSearch={handleSearchSavedMovies}
-        shortFilms={shortFilms}
+        shortFilms={shortFilmsSavedMovies}
         setShortFilms={setShortFilms}
         searchValue={searchValueSavedMovies}
         setSearchValue={setSearchValueSavedMovies}
-        onShortFilms={onShortFilms}
+        onShortFilms={shortFilmsHandler}
       />
 
       {isLoadingPage ? (
@@ -80,11 +89,11 @@ function SavedMovies({
           Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз.
         </p>
-      ) : savedCards.length === 0 && originalCards.length !== 0 ? (
+      ) : cards.length === 0 ? (
         <p className='movies__text'>Ничего не найдено.</p>
       ) : (
         <MoviesCardList
-          cards={savedCards}
+          cards={cards}
           savedCards={savedCards}
           isSavedMovies={isSavedMovies}
           onCardDelete={onCardDelete}

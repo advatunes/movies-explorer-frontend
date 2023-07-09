@@ -12,7 +12,19 @@ function MoviesCard({
   onCardDelete,
   onCardLike,
 }) {
+
   const isCardLiked = savedCards.some((savedCard) => savedCard.movieId === card.id);
+
+  function convertTime(minutes) {
+    var hours = Math.floor(minutes / 60);
+    var remainingMinutes = minutes % 60;
+
+    if (hours === 0) {
+      return remainingMinutes + ' м';
+    }
+
+    return hours + ' ч ' + remainingMinutes + ' м';
+  }
 
   function handleDeleteClick() {
     return onCardDelete(card);
@@ -29,7 +41,7 @@ function MoviesCard({
       <Link to={trailerLink} className='card__link' target='_blank'>
         <div className='card__wrap'>
           <h2 className='card__title'>{title}</h2>
-          <p className='card__movie-duration'>{duration}</p>
+          <p className='card__movie-duration'>{convertTime(duration)}</p>
         </div>
 
         <img className='card__image' src={link} alt={title} />

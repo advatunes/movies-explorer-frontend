@@ -14,7 +14,6 @@ import {
 function MoviesCardList({
   cards,
   savedCards,
-  handleAddToSavedCards,
   isSavedMovies,
   onCardDelete,
   onCardLike,
