@@ -1,0 +1,127 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fdfdfd;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+
+.card__link {
+  text-decoration: none;
+}
+
+.card__wrap {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 18px;
+  max-height: 54px;
+}
+
+.card__title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  padding-right: 10px;
+  max-width: 80%;
+  color: #000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__movie-duration {
+  white-space: nowrap;
+  margin: 0;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #a0a0a0;
+}
+
+.card__image {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: 200px;
+}
+
+.card__like {
+  display: inline-block;
+  margin: 18px auto;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 11px;
+  color: #000;
+  border: none;
+  border-radius: 30px;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100px;
+  height: 30px;
+  position: relative;
+}
+
+.card__like::before {
+  content: 'Сохранить';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card__like.card__like_active::before {
+  content: '';
+}
+
+.card__like_active {
+  color: #fff;
+  background-image: url(../../images/card-like.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #ee3465;
+}
+
+.card__like:hover {
+  background-color: #ff6838;
+}
+
+.card__like_dislike {
+  background: #f9f9f9;
+  background-image: url(../../images/dislike-card-icon.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.card__like.card__like_dislike::before {
+  content: '';
+}
+
+@media screen and (max-width: 900px) {
+  .card__image {
+    height: 190px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .card__wrap {
+    padding: 14px;
+  }
+  .card__image {
+    height: 170px;
+  }
+
+  .card__title {
+    font-size: 12px;
+  }
+  .card__movie-duration {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .card__like {
+    margin: 14px auto;
+  }
+}

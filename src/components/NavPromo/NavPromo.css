@@ -1,0 +1,31 @@
+.navigation-promo__buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.navigation-promo__link {
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500px;
+  text-decoration: none;
+  padding: 8px 20px;
+  transition: all 0.2s;
+}
+.navigation-promo__link:hover {
+  opacity: .6;
+}
+.navigation-promo__link-signin {
+  color: #000;
+  background-color: #2be080;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 568px) {
+  .navigation-promo__buttons {
+    gap: 2px;
+  }
+  .navigation-promo__link {
+    padding: 5px 12px;
+  }
+}
